@@ -41,7 +41,7 @@ no shutdown
 int e1/2
 no sw
 ip addr 172.16.2.0/31
-ip router ospf 1 area 0
+ip router ospf 1 area 1
 no shutdown
 
 interface loopback0
@@ -61,7 +61,7 @@ host NX2
 feature ospf
 
 router ospf 1
-router-id 2.2.2.2
+router-id 1.1.1.2
 passive-interface default
 
 int e1/1
@@ -114,7 +114,7 @@ host NX3
 feature ospf
 
 router ospf 1
-router-id 3.3.3.3
+router-id 1.1.1.3
 passive-interface default
 
 int e1/1
@@ -167,7 +167,7 @@ host NX4
 feature ospf
 
 router ospf 1
-router-id 4.4.4.4
+router-id 1.1.1.4
 passive-interface default
 
 int e1/1
@@ -204,7 +204,7 @@ feature ospf
 host NX5
 
 router ospf 1
-router-id 5.5.5.5
+router-id 1.1.1.5
 passive-interface default
 
 int e1/1
@@ -256,7 +256,7 @@ feature ospf
 host NX6
 
 router ospf 1
-router-id 6.6.6.6
+router-id 1.1.1.6
 passive-interface default
 
 int e1/1
@@ -277,7 +277,7 @@ no shutdown
 
 int e1/3
 no switchport
-ip addr 172.16.1.6/30
+ip addr 172.16.0.0/30
 ip router ospf 1 area 0
 no shutdown
 exit
@@ -298,7 +298,7 @@ host NX7
 feature ospf
 
 router ospf 1
-router-id 7.7.7.7
+router-id 1.1.1.7
 passive-interface default
 
 int e1/1
@@ -354,7 +354,7 @@ exit
 no ip domain loo
 
 router ospf 1
-router-id 11.11.11.11
+router-id 1.1.1.11
 
 interface e0/0
 ip addr 10.15.0.7 255.255.255.254
@@ -527,10 +527,9 @@ O        172.16.1.4/30 [110/90] via 10.15.1.6, 00:46:46, Ethernet0/1
 R11#show ip ospf neighbor 
 
 Neighbor ID     Pri   State           Dead Time   Address         Interface
-3.3.3.3           0   FULL/  -        00:00:36    10.15.1.6       Ethernet0/1
-2.2.2.2           0   FULL/  -        00:00:34    10.15.0.6       Ethernet0/0
-4.4.4.4           0   FULL/  -        00:00:38    10.16.0.0       Ethernet0/2
-
+1.1.1.3           0   FULL/  -        00:00:37    10.15.1.6       Ethernet0/1
+1.1.1.2           0   FULL/  -        00:00:39    10.15.0.6       Ethernet0/0
+1.1.1.4           0   FULL/  -        00:00:38    10.16.0.0       Ethernet0/2
 ```
 
 Далее укажу вывод соседства по OSPF:
@@ -542,8 +541,8 @@ NX4# show ip ospf neighbors
  OSPF Process ID 1 VRF default
  Total number of neighbors: 2
  Neighbor ID     Pri State            Up Time  Address         Interface
- 1.1.1.1           1 FULL/ -          01:08:30 10.16.0.3       Eth1/1 
- 11.11.11.11       1 FULL/ -          01:07:45 10.16.0.1       Eth1/2 
+ 1.1.1.1           1 FULL/ -          00:04:01 10.16.0.3       Eth1/1
+ 1.1.1.11          1 FULL/ -          00:02:13 10.16.0.1       Eth1/2
 ```
 
 NXOS3
@@ -553,10 +552,10 @@ NX3# show ip ospf neighbors
  OSPF Process ID 1 VRF default
  Total number of neighbors: 4
  Neighbor ID     Pri State            Up Time  Address         Interface
- 6.6.6.6           1 FULL/ -          00:51:21 10.15.1.1       Eth1/1 
- 7.7.7.7           1 FULL/ -          00:50:30 10.15.1.3       Eth1/2 
- 5.5.5.5           1 FULL/ -          00:53:47 10.15.1.5       Eth1/3 
- 11.11.11.11       1 FULL/ -          00:53:50 10.15.1.7       Eth1/4 
+ 1.1.1.6           1 FULL/ -          00:04:14 10.15.1.1       Eth1/1
+ 1.1.1.7           1 FULL/ -          00:02:28 10.15.1.3       Eth1/2
+ 1.1.1.5           1 FULL/ -          00:03:04 10.15.1.5       Eth1/3
+ 1.1.1.11          1 FULL/ -          00:01:48 10.15.1.7       Eth1/4
 ```
 
 NXOS2
@@ -566,9 +565,39 @@ NX2# show ip ospf neighbors
  OSPF Process ID 1 VRF default
  Total number of neighbors: 4
  Neighbor ID     Pri State            Up Time  Address         Interface
- 6.6.6.6           1 FULL/ -          00:52:35 10.15.0.1       Eth1/1 
- 7.7.7.7           1 FULL/ -          00:51:43 10.15.0.3       Eth1/2 
- 5.5.5.5           1 FULL/ -          01:12:29 10.15.0.5       Eth1/3 
- 11.11.11.11       1 FULL/ -          01:12:27 10.15.0.7       Eth1/4 
+ 1.1.1.6           1 FULL/ -          00:00:05 10.15.0.1       Eth1/1
+ 1.1.1.7           1 FULL/ -          00:00:03 10.15.0.3       Eth1/2
+ 1.1.1.5           1 FULL/ -          00:00:04 10.15.0.5       Eth1/3
+ 1.1.1.11          1 FULL/ -          00:00:12 10.15.0.7       Eth1/4
 ```
 
+
+Проверим связь между ДЦ:
+
+SW9
+
+```
+SW9#ping 172.16.2.1 repeat 100
+Type escape sequence to abort.
+Sending 100, 100-byte ICMP Echos to 172.16.2.1, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (100/100), round-trip min/avg/max = 21/48/143 ms
+```
+
+SW11
+
+```
+SW11#ping 172.16.0.1 repeat 100
+Type escape sequence to abort.
+Sending 100, 100-byte ICMP Echos to 172.16.0.1, timeout is 2 seconds:
+
+*Dec 17 12:55:24.025: %CDP-4-DUPLEX_MISMATCH: duplex mismatch discovered on Ethernet0/0 (not full duplex), with NX1(9XUXH5EN8BO) Ethernet1/2 (full duplex).!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (100/100), round-trip min/avg/max = 15/60/443 ms
+```
+
+
+Вывод:
+
+Условная сеть для двух ДЦ была построена , протокол OSPF работает , связь между конечными точками сети присутствует.   
