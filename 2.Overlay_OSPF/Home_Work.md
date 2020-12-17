@@ -591,10 +591,9 @@ SW11
 SW11#ping 172.16.0.1 repeat 100
 Type escape sequence to abort.
 Sending 100, 100-byte ICMP Echos to 172.16.0.1, timeout is 2 seconds:
-
-*Dec 17 12:55:24.025: %CDP-4-DUPLEX_MISMATCH: duplex mismatch discovered on Ethernet0/0 (not full duplex), with NX1(9XUXH5EN8BO) Ethernet1/2 (full duplex).!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-Success rate is 100 percent (100/100), round-trip min/avg/max = 15/60/443 ms
+Success rate is 100 percent (100/100), round-trip min/avg/max = 18/44/193 ms
 ```
 
 
