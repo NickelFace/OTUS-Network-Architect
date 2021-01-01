@@ -56,7 +56,9 @@ copy run star
 </details>
 ```
 
-NXOS2
+```
+<details><summary>NXOS2</summary>
+```
 
 ```
  conf t
@@ -108,6 +110,8 @@ ip router ospf 1 area 0
 end
 copy run star
 ```
+
+</details>
 
 NXOS3
 
