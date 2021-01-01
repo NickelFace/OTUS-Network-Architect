@@ -17,11 +17,11 @@
 ![](img/Schema2.png)
 
 Настройка NEXUS:
-<details>
-  <summary>NXOS1</summary>
+ <details>
+<summary>NXOS1</summary>
 <pre><code>
 conf t
-!
+! 
 host NX1
 feature ospf
 !
@@ -48,11 +48,11 @@ ip address 1.1.1.1/24
 ip router ospf 1 area 0.0.0.1
 !
 end
-copy run star
+copy run star 
 </code></pre>
 </details>
 <details>
-  <summary>NXOS2</summary>
+<summary>NXOS2</summary>
 <pre><code>
 conf t
 !
@@ -107,7 +107,7 @@ copy run star
 <details>
   <summary>NXOS3</summary>
 <pre><code>
-conf t
+ conf t
 !
 host NX3
 feature ospf
