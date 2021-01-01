@@ -18,7 +18,7 @@
 
 Настройка NEXUS:
 
- NXOS1
+ <details><summary>NXOS1</summary>
 
 ```
 conf t
@@ -50,6 +50,10 @@ ip router ospf 1 area 0.0.0.1
 
 end
 copy run star
+```
+
+```
+</details>
 ```
 
 NXOS2
