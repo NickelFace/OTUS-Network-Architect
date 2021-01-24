@@ -206,7 +206,7 @@ ip prefix-list P2P seq 15 permit 10.15.1.2/31
 ip prefix-list P2P seq 20 permit 10.15.1.4/31 
 ip prefix-list P2P seq 25 permit 10.15.1.6/31 
 !
-router bgp 64553
+router bgp 64552
   router-id 1.1.1.3
   bestpath as-path multipath-relax
   address-family ipv4 unicast
@@ -379,7 +379,7 @@ router bgp 64555
     log-neighbor-changes
     exit
   template peer NXOS3
-    remote-as 64553
+    remote-as 64552
     password cisco
     address-family ipv4 unicast
     exit
@@ -450,7 +450,7 @@ router bgp 64556
     log-neighbor-changes
     exit
   template peer NXOS3
-    remote-as 64553
+    remote-as 64552
     password cisco
     address-family ipv4 unicast
     exit
@@ -530,7 +530,7 @@ router bgp 64557
     log-neighbor-changes
     exit
   template peer NXOS3
-    remote-as 64553
+    remote-as 64552
     password cisco
     address-family ipv4 unicast
     exit
@@ -598,7 +598,7 @@ router bgp 64777
  exit-peer-session
  !
  template peer-session NXOS3
-  remote-as 64553
+  remote-as 64552
   password cisco
  exit-peer-session
  !
@@ -618,6 +618,7 @@ router bgp 64777
   neighbor 10.15.0.6 activate
   neighbor 10.15.1.6 activate
   neighbor 10.16.0.0 activate
+  maximum-paths 4
  exit-address-family
 !
 line con 0
