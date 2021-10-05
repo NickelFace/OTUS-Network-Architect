@@ -17,21 +17,21 @@ Underlay. IS-IS
 
 Настройка NEXUS:
 
-NXOS1
-
-```
+<details>
+<summary>NXOS1</summary>
+<pre><code>
 configure terminal
 hostname NX1
-
+!
 feature isis
-
+!
 router isis 1
   net 49.0001.0001.0001.0011.00
   is-type level-1
   log-adjacency-changes
-
+!
 no ip domain-lookup
-
+!
 interface Ethernet1/1
   no switchport
   ip address 10.16.0.3/31
@@ -39,7 +39,7 @@ interface Ethernet1/1
   isis circuit-type level-1
   ip router isis 1
   no shutdown
-
+!
 interface Ethernet1/2
   no switchport
   ip address 172.16.2.0/31
@@ -48,33 +48,34 @@ interface Ethernet1/2
   isis circuit-type level-1
   ip router isis 1
   no shutdown
-
+!
 interface loopback0
   ip address 1.1.1.1/32
   isis circuit-type level-1
   ip router isis 1
-
+!
 end
 copy run star
-```
+</code></pre>
+</details>
 
-NXOS2
-
-```
+<details>
+<summary>NXOS2</summary>
+<pre><code>
 configure terminal
 hostname NX2
-
+!
 feature isis
-
+!
 router isis 1
   net 49.0000.0001.0001.0012.00
   distribute level-1 into level-2 all
   summary-address 10.15.0.0/24 level-1-2
   is-type level-1-2
   log-adjacency-changes
-
+!
 no ip domain-lookup
-
+!
 interface Ethernet1/1
   no switchport
   ip address 10.15.0.0/31
@@ -82,7 +83,7 @@ interface Ethernet1/1
   isis circuit-type level-1
   ip router isis 1
   no shutdown
-
+!
 interface Ethernet1/2
   no switchport
   ip address 10.15.0.2/31
@@ -90,7 +91,7 @@ interface Ethernet1/2
   isis circuit-type level-1
   ip router isis 1
   no shutdown
-
+!
 interface Ethernet1/3
   no switchport
   ip address 10.15.0.4/31
@@ -98,7 +99,7 @@ interface Ethernet1/3
   isis circuit-type level-1
   ip router isis 1
   no shutdown
-
+!
 interface Ethernet1/4
   no switchport
   ip address 10.15.0.6/31
@@ -106,33 +107,34 @@ interface Ethernet1/4
   isis circuit-type level-2
   ip router isis 1
   no shutdown
-
+!
 interface loopback0
   ip address 1.1.1.2/32
   isis circuit-type level-2
   ip router isis 1
-
+!
 end
 copy run star
-```
+</code></pre>
+</details>
 
-NXOS3
-
-```
+<details>
+<summary>NXOS3</summary>
+<pre><code>
 configure terminal 
 hostname NX3
-
+!
 feature isis
-
+!
 router isis 1
   net 49.0000.0001.0001.0013.00
   is-type level-1-2
   distribute level-1 into level-2 all
   summary-address 10.15.1.0/24 level-1-2
   log-adjacency-changes
-
+!
 no ip domain-lookup
-
+!
 interface Ethernet1/1
   no switchport
   ip address 10.15.1.0/31
@@ -140,7 +142,7 @@ interface Ethernet1/1
   isis circuit-type level-1
   ip router isis 1
   no shutdown
-
+!
 interface Ethernet1/2
   no switchport
   ip address 10.15.1.2/31
@@ -148,7 +150,7 @@ interface Ethernet1/2
   isis circuit-type level-1
   ip router isis 1
   no shutdown
-
+!
 interface Ethernet1/3
   no switchport
   ip address 10.15.1.4/31
@@ -156,7 +158,7 @@ interface Ethernet1/3
   isis circuit-type level-1
   ip router isis 1
   no shutdown
-
+!
 interface Ethernet1/4
   no switchport
   ip address 10.15.1.6/31
@@ -164,34 +166,35 @@ interface Ethernet1/4
   isis circuit-type level-2
   ip router isis 1
   no shutdown
-
+!
 interface loopback0
   ip address 1.1.1.3/32
   isis circuit-type level-2
   ip router isis 1
-
+!
 end
 copy run star
-```
+</code></pre>
+</details>
 
-NXOS4
-
-```
+<details>
+<summary>NXOS4</summary>
+<pre><code>
 configure terminal
 hostname NX4
-
+!
 no feature isis
 feature isis
-
+!
 router isis 1
   net 49.0001.0001.0001.0014.00
   distribute level-1 into level-2 all
   summary-address 10.16.0.0/24 level-1-2
   is-type level-1-2
   log-adjacency-changes
-
+!
 no ip domain-lookup
-
+!
 interface Ethernet1/1
   no switchport
   ip address 10.16.0.2/31
@@ -199,7 +202,7 @@ interface Ethernet1/1
   isis circuit-type level-1
   ip router isis 1
   no shutdown
-
+!
 interface Ethernet1/2
   no switchport
   ip address 10.16.0.0/31
@@ -207,32 +210,33 @@ interface Ethernet1/2
   isis circuit-type level-2
   ip router isis 1
   no shutdown
-
+!
 interface loopback0
   ip address 1.1.1.4/32
   isis circuit-type level-1
   ip router isis 1
-
+!
 end
 copy run star
-```
+</code></pre>
+</details>
 
-NXOS5
-
-```
+<details>
+<summary>NXOS5</summary>
+<pre><code>
 configure terminal 
 hostname NX5
-
+!
 no feature isis
 feature isis
-
+!
 router isis 1
   net 49.0000.0001.0001.0015.00
   is-type level-1
   log-adjacency-changes
-
+!
 ip domain-lookup
-
+!
 interface Ethernet1/1
   no switchport
   ip address 10.15.0.5/31
@@ -240,7 +244,7 @@ interface Ethernet1/1
   isis circuit-type level-1
   ip router isis 1
   no shutdown
-
+!
 interface Ethernet1/2
   no switchport
   ip address 10.15.1.5/31
@@ -248,7 +252,7 @@ interface Ethernet1/2
   isis circuit-type level-1
   ip router isis 1
   no shutdown
-
+!
 interface Ethernet1/3
   no switchport
   ip address 172.16.1.2/31
@@ -257,7 +261,7 @@ interface Ethernet1/3
   isis circuit-type level-1
   ip router isis 1
   no shutdown
-
+!
 interface Ethernet1/4
   no switchport
   ip address 10.15.2.0/31
@@ -265,32 +269,33 @@ interface Ethernet1/4
   isis circuit-type level-1
   ip router isis 1
   no shutdown
-
+!
 interface loopback0
   ip address 1.1.1.5/32
   isis circuit-type level-1
   ip router isis 1
-
+!
 end
 copy run star 
-```
+</code></pre>
+</details>
 
-NXOS6
-
-```
+<details>
+<summary>NXOS6</summary>
+<pre><code>
 configure terminal
 hostname NX6
-
+!
 no feature isis
 feature isis
-
+!
 router isis 1
   net 49.0000.0001.0001.0016.00
   is-type level-1
   log-adjacency-changes
-
+!
 no ip domain-lookup
-
+!
 interface Ethernet1/1
   no switchport
   ip address 10.15.0.1/31
@@ -298,7 +303,7 @@ interface Ethernet1/1
   isis circuit-type level-1
   ip router isis 1
   no shutdown
-
+!
 interface Ethernet1/2
   no switchport
   ip address 10.15.1.1/31
@@ -306,7 +311,7 @@ interface Ethernet1/2
   isis circuit-type level-1
   ip router isis 1
   no shutdown
-
+!
 interface Ethernet1/3
   no switchport
   ip address 172.16.0.0/31
@@ -315,33 +320,33 @@ interface Ethernet1/3
   isis circuit-type level-1
   ip router isis 1
   no shutdown
-
+!
 interface loopback0
   ip address 1.1.1.6/32
   isis circuit-type level-1-2
   ip router isis 1
-
+!
 end
 copy run star 
-```
+</code></pre>
+</details>
 
-NXOS7
-
-```
+<details>
+<summary>NXOS7</summary>
+<pre><code>
 configure terminal
 hostname NX7
-
+!
 no feature isis
 feature isis
-
-
+!
 router isis 1
   net 49.0000.0001.0001.0017.00
   is-type level-1
   log-adjacency-changes
-
+!
 no ip domain-lookup
-
+!
 interface Ethernet1/1
   no switchport
   ip address 10.15.0.3/31
@@ -349,7 +354,7 @@ interface Ethernet1/1
   isis circuit-type level-1
   ip router isis 1
   no shutdown
-
+!
 interface Ethernet1/2
   no switchport
   ip address 10.15.1.3/31
@@ -357,7 +362,7 @@ interface Ethernet1/2
   isis circuit-type level-1
   ip router isis 1
   no shutdown
-
+!
 interface Ethernet1/3
   no switchport
   ip address 10.15.2.1/31
@@ -365,7 +370,7 @@ interface Ethernet1/3
   isis circuit-type level-1
   ip router isis 1
   no shutdown
-
+!
 interface Ethernet1/4
   no switchport
   ip address 172.16.1.0/31
@@ -374,158 +379,163 @@ interface Ethernet1/4
   isis circuit-type level-1
   ip router isis 1
   no shutdown
-
+!
 interface loopback0
   ip address 1.1.1.7/32
   isis circuit-type level-1
   ip router isis 1
-
+!
 end
 copy run star 
-```
+</code></pre>
+</details>
 
-Роутер R11
-
-```
+<details>
+<summary>R11</summary>
+<pre><code>
 enable
 configure terminal
-
+!
 hostname R11
-
+!
 no ip domain lookup
-
+!
 interface Loopback0
  no shutdown
  ip address 1.1.1.11 255.255.255.255
  ip router isis 1
  isis circuit-type level-2-only
-
+!
 interface Ethernet0/0
  no shutdown
  ip address 10.15.0.7 255.255.255.254
  ip router isis 1
  isis circuit-type level-2-only
  isis network point-to-point 
-
+!
 interface Ethernet0/1
  no shutdown
  ip address 10.15.1.7 255.255.255.254
  ip router isis 1
  isis circuit-type level-2-only
  isis network point-to-point 
-
+!
 interface Ethernet0/2
  no shutdown
  ip address 10.16.0.1 255.255.255.254
  ip router isis 1
  isis circuit-type level-2-only
  isis network point-to-point 
-
+!
 interface Ethernet0/3
  no shutdown
  no ip address
  shutdown
-
+!
 router isis 1
  net 49.0000.0001.0001.0111.00
  is-type level-2-only
  metric-style wide
  log-adjacency-changes
-
+!
 line con 0
  exec-timeout 0 0
-
+!
 end
 copy run star 
-```
+</code></pre>
+</details>
 
 Далее пойдут настройки клиентских устройств:
 
-SW11
-
-```
+<details>
+<summary>SW11</summary>
+<pre><code>
 enable
 configure terminal
-
+!
 host SW11
 line con 0
 exec-t 0 0
 exit
 no ip domain loo
-
+!
 interface e0/0
 no sw
 ip addr 172.16.2.1 255.255.255.254
 duplex full
 no sh
 exit
-
+!
 ip route 0.0.0.0 0.0.0.0 172.16.2.0 
 end
 wr
-```
+</code></pre>
+</details>
 
-SW10
-
-```
+<details>
+<summary>SW10</summary>
+<pre><code>
 enable
 configure terminal
-
+!
 host SW10
 line con 0
 exec-t 0 0
 exit
 no ip domain loo
-
+!
 interface e0/0
 no sw
 ip addr 172.16.1.3 255.255.255.254
 duplex full
 no sh
 exit
-
+!
 interface e0/1
 no sw
 ip addr 172.16.1.1 255.255.255.254
 duplex full
 no sh
 exit
-
+!
 ip sla 1
 icmp-echo 172.16.1.2 source-interface e0/0
 frequency 10
 ip sla schedule 1 start-time now life forever 
 track 1 ip sla 1 reachability
 ip route 0.0.0.0 0.0.0.0 172.16.1.2 track 1
-
+!
 ip route 0.0.0.0 0.0.0.0 172.16.1.0 10
 end
 wr
-```
+</code></pre>
+</details>
 
-SW9
-
-```
+<details>
+<summary>SW9</summary>
+<pre><code>
 enable
 configure terminal
-
+!
 host SW9
 line con 0
 exec-t 0 0
 exit
 no ip domain loo
-
+!
 interface e0/0
 no sw
 ip addr 172.16.0.1 255.255.255.254
 duplex full
 no sh
 exit
-
+!
 ip route 0.0.0.0 0.0.0.0 172.16.0.0 
 end
 wr
-```
+</code></pre>
+</details>
 
 Вывод нескольких устройств:
 
