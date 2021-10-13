@@ -9,7 +9,7 @@ Underlay.BGP
 1. настроить BGP в Underlay сети, для IP связанности между всеми устройствами NXOS
 2. План работы, адресное пространство, схема сети, настройки - зафиксированы в документации
 
-![image-20210217192610332](C:\Users\admin\Documents\GitHub\OTUS-Network-Architect\4.Underlay_BGP\img\Schema.png)
+![Sheme](./img/Schema.png)
 
 Немного вводной информации:
 
