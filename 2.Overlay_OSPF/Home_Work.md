@@ -1,6 +1,6 @@
 # Underlay. OSPF
 
-**Цель: Настроить OSPF для Underlay сети**
+Цель: Настроить OSPF для Underlay сети
 
 В этой самостоятельной работе мы ожидаем, что вы самостоятельно:
 
@@ -447,12 +447,12 @@ wr
  </code></pre>
 </details>
 <details>
-<summary>**SW10**</summary>
+<summary>SW10</summary>
 <pre><code>
 enable
 configure terminal
 !
-hostname **SW10**
+hostname SW10
 line con 0
 exec-t 0 0
 exit
@@ -486,12 +486,12 @@ wr
 </code></pre>
 </details> 
 <details>
-<summary>**SW9**</summary>
+<summary>SW9</summary>
 <pre><code>
 enable
 configure terminal
 !
-hostname **SW9**
+hostname SW9
 line con 0
 exec-t 0 0
 exit
@@ -510,10 +510,7 @@ wr
 </code></pre>
 </details> 
 
-
-
-
-Вывод  нескольких устройств:
+Вывод  нескольких устройств после настройки:
 
 ```
  R11#show ip route ospf    
