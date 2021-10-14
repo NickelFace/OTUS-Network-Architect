@@ -277,7 +277,7 @@ no shutdown
 
 int e1/3
 no switchport
-ip addr 172.16.0.0/30
+ip addr 172.16.0.0/31
 ip router ospf 1 area 0
 no shutdown
 exit
