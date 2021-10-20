@@ -65,6 +65,9 @@ router bgp 64551
     inherit peer NXOS4
     exit
 !
+line vty
+  exec-timeout 0
+!
 end
 copy run star
 </code></pre>
@@ -75,7 +78,6 @@ copy run star
 configure terminal
 !
 hostname NX2
-!
 !
 feature bgp
 !
@@ -157,6 +159,9 @@ router bgp 64552
     inherit peer NXOS6
     exit
 !
+line vty
+  exec-timeout 0
+!
 end
 copy run star
 </code></pre>
@@ -167,7 +172,6 @@ copy run star
 configure terminal 
 !
 hostname NX3
-!
 !
 feature bgp
 !
@@ -250,6 +254,9 @@ router bgp 64552
     inherit peer R11
     exit
 !
+line vty
+  exec-timeout 0
+!
 end
 copy run star
 </code></pre>
@@ -260,7 +267,6 @@ copy run star
  configure terminal
 !
 hostname NX4
-!
 !
 feature bgp
 !
@@ -310,6 +316,9 @@ router bgp 64554
   neighbor 10.16.0.1
     inherit peer R11
     exit
+!
+line vty
+  exec-timeout 0
 !
 end
 copy run star 
@@ -394,6 +403,9 @@ router bgp 64555
     inherit peer NXOS7
     exit
 !
+line vty
+  exec-timeout 0
+!
 end
 copy run star 
 </code></pre>
@@ -404,7 +416,6 @@ copy run star
 configure terminal
 !
 hostname NX6
-!
 !
 feature bgp
 !
@@ -462,6 +473,9 @@ router bgp 64556
     inherit peer NXOS3
     exit
 !
+line vty
+  exec-timeout 0
+!
 end
 copy run star 
 </code></pre>
@@ -472,7 +486,6 @@ copy run star
 configure terminal
 !
 hostname NX7
-!
 !
 feature bgp
 !
@@ -544,6 +557,9 @@ router bgp 64557
   neighbor 10.15.2.0
     inherit peer NXOS5
     exit
+!
+line vty
+  exec-timeout 0
 !
 end
 copy run star 
