@@ -331,7 +331,6 @@ configure terminal
 !
 hostname NX5
 !
-!
 feature bgp
 !
 no ip domain-lookup
@@ -375,32 +374,18 @@ router bgp 64555
     redistribute direct route-map BGP-OUT
     maximum-paths 4
 !
-  template peer NXOS2
+  template peer SPINE
     remote-as 64552
     password cisco
     address-family ipv4 unicast
     log-neighbor-changes
-    exit
-  template peer NXOS7
-    remote-as 64557
-    password cisco
-    address-family ipv4 unicast
-    log-neighbor-changes
-    exit
-  template peer NXOS3
-    remote-as 64552
-    password cisco
-    address-family ipv4 unicast
     exit
     exit
   neighbor 10.15.0.4
-    inherit peer NXOS2
+    inherit peer SPINE
     exit
   neighbor 10.15.1.4
-    inherit peer NXOS3
-    exit
-  neighbor 10.15.2.1
-    inherit peer NXOS7
+    inherit peer SPINE
     exit
 !
 line vty
@@ -530,32 +515,17 @@ router bgp 64557
     redistribute direct route-map BGP-OUT
     maximum-paths 4
 !
-   template peer NXOS2
-    remote-as 64552
-    password cisco
-    address-family ipv4 unicast
-    log-neighbor-changes
-    exit
-  template peer NXOS5
-    remote-as 64555
-    password cisco
-    address-family ipv4 unicast
-    log-neighbor-changes
-    exit
-  template peer NXOS3
+  template peer SPINE
     remote-as 64552
     password cisco
     address-family ipv4 unicast
     exit
     exit
   neighbor 10.15.0.2
-    inherit peer NXOS2
+    inherit peer SPINE
     exit
   neighbor 10.15.1.2
-    inherit peer NXOS3
-    exit
-  neighbor 10.15.2.0
-    inherit peer NXOS5
+    inherit peer SPINE
     exit
 !
 line vty
