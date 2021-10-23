@@ -17,7 +17,6 @@ Underlay.BGP
 
 Настройка NEXUS:
 
-
 <details>
   <summary>NXOS1</summary>
 <pre><code>
@@ -615,6 +614,7 @@ copy run star
 </code></pre>
 </details>
 
+
 Далее пойдут настройки клиентских устройств:
 
 <details>
@@ -716,72 +716,69 @@ Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
        i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
        ia - IS-IS inter area, * - candidate default, U - per-user static route
        o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
-       a - application route
        + - replicated route, % - next hop override
 
 Gateway of last resort is not set
 
       1.0.0.0/32 is subnetted, 8 subnets
-B        1.1.1.1 [20/0] via 10.16.0.0, 04:36:50
-B        1.1.1.2 [20/0] via 10.15.0.6, 05:34:27
-B        1.1.1.3 [20/0] via 10.15.1.6, 1w1d
-B        1.1.1.4 [20/0] via 10.16.0.0, 05:06:43
-B        1.1.1.5 [20/0] via 10.15.1.6, 00:37:47
-                 [20/0] via 10.15.0.6, 00:37:47
-B        1.1.1.6 [20/0] via 10.15.1.6, 05:34:27
-                 [20/0] via 10.15.0.6, 05:34:27
-B        1.1.1.7 [20/0] via 10.15.1.6, 00:09:56
-                 [20/0] via 10.15.0.6, 00:09:56
+B        1.1.1.1 [20/0] via 10.16.0.0, 00:01:17
+B        1.1.1.2 [20/0] via 10.15.0.6, 00:01:17
+B        1.1.1.3 [20/0] via 10.15.1.6, 00:01:17
+B        1.1.1.4 [20/0] via 10.16.0.0, 00:01:17
+B        1.1.1.5 [20/0] via 10.15.1.6, 00:01:17
+                 [20/0] via 10.15.0.6, 00:01:17
+B        1.1.1.6 [20/0] via 10.15.1.6, 00:01:17
+                 [20/0] via 10.15.0.6, 00:01:17
+B        1.1.1.7 [20/0] via 10.15.1.6, 00:01:17
+                 [20/0] via 10.15.0.6, 00:01:17
       10.0.0.0/8 is variably subnetted, 14 subnets, 2 masks
-B        10.15.0.0/31 [20/0] via 10.15.0.6, 05:34:27
-B        10.15.0.2/31 [20/0] via 10.15.0.6, 05:34:27
-B        10.15.0.4/31 [20/0] via 10.15.0.6, 05:34:27
-B        10.15.1.0/31 [20/0] via 10.15.1.6, 1w1d
-B        10.15.1.2/31 [20/0] via 10.15.1.6, 1w1d
-B        10.15.1.4/31 [20/0] via 10.15.1.6, 1w1d
-B        10.15.2.0/31 [20/0] via 10.15.1.6, 00:37:47
-                      [20/0] via 10.15.0.6, 00:37:47
-B        10.16.0.2/31 [20/0] via 10.16.0.0, 05:06:43
+B        10.15.0.0/31 [20/0] via 10.15.0.6, 00:01:17
+B        10.15.0.2/31 [20/0] via 10.15.0.6, 00:01:17
+B        10.15.0.4/31 [20/0] via 10.15.0.6, 00:01:17
+B        10.15.1.0/31 [20/0] via 10.15.1.6, 00:01:17
+B        10.15.1.2/31 [20/0] via 10.15.1.6, 00:01:17
+B        10.15.1.4/31 [20/0] via 10.15.1.6, 00:01:17
+B        10.15.2.0/31 [20/0] via 10.15.1.6, 00:01:17
+                      [20/0] via 10.15.0.6, 00:01:17
+B        10.16.0.2/31 [20/0] via 10.16.0.0, 00:01:17
       172.16.0.0/31 is subnetted, 4 subnets
-B        172.16.0.0 [20/0] via 10.15.1.6, 05:34:27
-                    [20/0] via 10.15.0.6, 05:34:27
-B        172.16.1.0 [20/0] via 10.15.1.6, 00:09:56
-                    [20/0] via 10.15.0.6, 00:09:56
-B        172.16.1.2 [20/0] via 10.15.1.6, 00:37:47
-                    [20/0] via 10.15.0.6, 00:37:47
-B        172.16.2.0 [20/0] via 10.16.0.0, 04:36:49
+B        172.16.0.0 [20/0] via 10.15.1.6, 00:01:17
+                    [20/0] via 10.15.0.6, 00:01:17
+B        172.16.1.0 [20/0] via 10.15.1.6, 00:01:17
+                    [20/0] via 10.15.0.6, 00:01:17
+B        172.16.1.2 [20/0] via 10.15.1.6, 00:01:17
+                    [20/0] via 10.15.0.6, 00:01:17
+B        172.16.2.0 [20/0] via 10.16.0.0, 00:01:17
 
-R11#traceroute 172.16.1.3
+R11# traceroute 172.16.1.3
 Type escape sequence to abort.
 Tracing the route to 172.16.1.3
 VRF info: (vrf in name/id, vrf out name/id)
-  1 10.15.0.6 404 msec
-    10.15.1.6 367 msec
-    10.15.0.6 102 msec
-  2 10.15.1.5 [AS 64552] 159 msec
-    10.15.0.5 [AS 64552] 12 msec
-    10.15.1.5 [AS 64552] 19 msec
-  3 172.16.1.3 [AS 64555] 26 msec *  51 msec
-```
+  1 10.15.0.6 28 msec
+    10.15.1.6 26 msec
+    10.15.0.6 2 msec
+  2 10.15.1.5 [AS 64552] 4 msec
+    10.15.0.5 [AS 64552] 4 msec
+    10.15.1.5 [AS 64552] 3 msec
+  3 172.16.1.3 [AS 64555] 5 msec *  7 msec
 
-```
-R11#show ip bgp summary 
+R11#show ip bgp summary
 BGP router identifier 1.1.1.11, local AS number 64777
-BGP table version is 48, main routing table version 48
-23 network entries using 3220 bytes of memory
-39 path entries using 3120 bytes of memory
+BGP table version is 27, main routing table version 27
+23 network entries using 3404 bytes of memory
+39 path entries using 2496 bytes of memory
 7 multipath network entries and 14 multipath paths
-7/7 BGP path/bestpath attribute entries using 1008 bytes of memory
+7/7 BGP path/bestpath attribute entries using 952 bytes of memory
 6 BGP AS-PATH entries using 144 bytes of memory
 0 BGP route-map cache entries using 0 bytes of memory
 0 BGP filter-list cache entries using 0 bytes of memory
-BGP using 7492 total bytes of memory
-BGP activity 31/8 prefixes, 49/10 paths, scan interval 60 secs
+BGP using 6996 total bytes of memory
+BGP activity 23/0 prefixes, 39/0 paths, scan interval 60 secs
 
 Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
-10.15.0.6       4        64552     343     382       48    0    0 05:35:50       15
-10.15.1.6       4        64552   11892   13105       48    0    0 1w1d           15
-10.16.0.0       4        64554     314     349       48    0    0 05:08:07        5
+10.15.0.6       4        64552      10      14       27    0    0 00:02:50       15
+10.15.1.6       4        64552      10      14       27    0    0 00:02:51       15
+10.16.0.0       4        64554       8      14       27    0    0 00:02:51        5
 ```
 
 Далее укажу вывод соседства по BGP:
@@ -797,25 +794,25 @@ peers 2, established peers 2, local router-id 1.1.1.4
 State: I-Idle, A-Active, O-Open, E-Established, C-Closing, S-Shutdown
 
 Neighbor        ASN    Flaps LastUpDn|LastRead|LastWrit St Port(L/R)  Notif(S/R)
-10.16.0.1       64777 0     05:08:51|00:00:23|00:00:02 E   179/20321      0/0
-10.16.0.3       64551 0     04:38:59|00:00:49|00:00:52 E   179/26449      0/0
+10.16.0.1       64777 1     00:04:27|00:00:55|00:00:26 E   24693/179        0/0
+10.16.0.3       64551 0     00:05:24|00:00:23|00:00:40 E   38939/179        0/0
 ```
 
 NXOS3
 
 ```
-NX3# show bgp sessions 
+NX3# show bgp sessions
 Total peers 4, established peers 4
-ASN 64553
-VRF default, local ASN 64553
+ASN 64552
+VRF default, local ASN 64552
 peers 4, established peers 4, local router-id 1.1.1.3
 State: I-Idle, A-Active, O-Open, E-Established, C-Closing, S-Shutdown
 
 Neighbor        ASN    Flaps LastUpDn|LastRead|LastWrit St Port(L/R)  Notif(S/R)
-10.15.1.1       64556 0     02:11:36|00:00:09|00:00:08 E   179/26625      11/0
-10.15.1.3       64557 0     01:28:56|00:00:08|00:00:08 E   179/23077      48/0
-10.15.1.5       64555 0     01:30:32|00:00:08|00:00:08 E   16411/179        0/46
-10.15.1.7       64777 2     01:09:58|00:00:41|00:00:55 E   57779/179        1/0
+10.15.1.1       64556 0     00:05:35|00:00:34|00:00:16 E   179/49778      0/0
+10.15.1.3       64557 0     00:05:25|00:00:24|00:00:16 E   48355/179      0/0
+10.15.1.5       64555 0     00:05:47|00:00:46|00:00:16 E   179/25529      0/0
+10.15.1.7       64777 1     00:05:03|00:00:25|00:00:02 E   31905/179      0/0
 ```
 
 NXOS2
@@ -829,10 +826,10 @@ peers 4, established peers 4, local router-id 1.1.1.2
 State: I-Idle, A-Active, O-Open, E-Established, C-Closing, S-Shutdown
 
 Neighbor        ASN    Flaps LastUpDn|LastRead|LastWrit St Port(L/R)  Notif(S/R)
-10.15.0.1       64556 0     05:37:43|00:00:31|00:00:14 E   19125/179        0/0
-10.15.0.3       64557 0     00:13:12|00:00:11|00:00:11 E   179/52657        0/0
-10.15.0.5       64555 0     00:41:02|0.945580|00:00:25 E   179/34384        0/0
-10.15.0.7       64777 0     05:37:42|00:00:37|00:00:14 E   25495/179        0/0
+10.15.0.1       64556 0     00:06:10|00:00:09|00:00:46 E   50287/179        0/0
+10.15.0.3       64557 0     00:05:51|00:00:50|00:00:46 E   37661/179        0/0
+10.15.0.5       64555 0     00:06:18|00:00:17|00:00:46 E   179/36952        0/0
+10.15.0.7       64777 1     00:05:32|00:00:01|00:00:31 E   45531/179        0/0
 ```
 
 Проверим связь между ДЦ:
@@ -843,20 +840,20 @@ SW9  -> SW11
 SW9#ping 172.16.2.1
 Type escape sequence to abort.
 Sending 5, 100-byte ICMP Echos to 172.16.2.1, timeout is 2 seconds:
-.!!!!
-Success rate is 80 percent (4/5), round-trip min/avg/max = 96/550/1844 ms
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 10/25/82 ms
 
-R11#traceroute 172.16.1.3
+SW9#traceroute 172.16.1.3
 Type escape sequence to abort.
 Tracing the route to 172.16.1.3
 VRF info: (vrf in name/id, vrf out name/id)
-  1 10.15.1.6 22 msec
-    10.15.0.6 30 msec
-    10.15.1.6 5 msec
-  2 10.15.0.5 [AS 64552] 16 msec
-    10.15.1.5 [AS 64552] 88 msec
-    10.15.0.5 [AS 64552] 110 msec
-  3 172.16.1.3 [AS 64555] 66 msec *  179 msec
+  1 172.16.0.0 3 msec 2 msec 1 msec
+  2 10.15.0.0 4 msec 3 msec
+    10.15.1.0 4 msec
+  3 10.15.0.5 6 msec
+    10.15.1.5 7 msec
+    10.15.0.5 6 msec
+  4 172.16.1.3 7 msec *  13 msec
 ```
 
 SW11 -> SW10
@@ -867,17 +864,23 @@ Type escape sequence to abort.
 Sending 5, 100-byte ICMP Echos to 172.16.1.3, timeout is 2 seconds:
 !!!!!
 Success rate is 100 percent (5/5), round-trip min/avg/max = 58/129/218 ms
+```
 
-SW11>traceroute 172.16.1.3
+SW10 -> SW11
+
+```
+SW10#traceroute 172.16.2.1
 Type escape sequence to abort.
-Tracing the route to 172.16.1.3
+Tracing the route to 172.16.2.1
 VRF info: (vrf in name/id, vrf out name/id)
-  1 172.16.2.0 4 msec 6 msec 7 msec
-  2 10.16.0.2 38 msec 21 msec 25 msec
-  3 10.16.0.1 97 msec 164 msec 79 msec
-  4 10.15.0.6 69 msec 30 msec 118 msec
-  5 10.15.0.5 107 msec 86 msec 69 msec
-  6 172.16.1.3 90 msec *  95 msec
+  1 172.16.1.2 2 msec 1 msec 1 msec
+  2 10.15.1.4 4 msec
+    10.15.0.4 4 msec 4 msec
+  3 10.15.0.7 5 msec 4 msec
+    10.15.1.7 4 msec
+  4 10.16.0.0 7 msec 6 msec 6 msec
+  5 10.16.0.3 7 msec 9 msec 7 msec
+  6 172.16.2.1 10 msec *  14 msec
 ```
 
 Вывод:
