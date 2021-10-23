@@ -380,7 +380,6 @@ router bgp 64555
     address-family ipv4 unicast
     log-neighbor-changes
     exit
-    exit
   neighbor 10.15.0.4
     inherit peer SPINE
     exit
@@ -519,7 +518,6 @@ router bgp 64557
     remote-as 64552
     password cisco
     address-family ipv4 unicast
-    exit
     exit
   neighbor 10.15.0.2
     inherit peer SPINE
