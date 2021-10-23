@@ -386,6 +386,7 @@ router bgp 64555
   neighbor 10.15.1.4
     inherit peer SPINE
     exit
+    exit
 !
 line vty
   exec-timeout 0
@@ -524,6 +525,7 @@ router bgp 64557
     exit
   neighbor 10.15.1.2
     inherit peer SPINE
+    exit
     exit
 !
 line vty
