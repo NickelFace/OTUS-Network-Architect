@@ -24,7 +24,6 @@
 
 **Настройка NEXUS:**
 
-```
  <details>
 <summary>NXOS1</summary>
 <pre><code>
@@ -67,9 +66,7 @@ end
 copy run star 
 </code></pre>
 </details>
-```
 
-```
 <details>
 <summary>NXOS2</summary>
 <pre><code>
@@ -136,9 +133,7 @@ end
 copy run star
 </code></pre>
 </details>
-```
 
-```
 <details>
   <summary>NXOS3</summary>
 <pre><code>
@@ -205,9 +200,7 @@ end
 copy run star
 </code></pre>
 </details>
-```
 
-```
 <details>
   <summary>NXOS4</summary>
 <pre><code>
@@ -252,9 +245,7 @@ end
 copy run star
 </code></pre>
 </details>
-```
 
-```
 <details>
 <summary>NXOS5</summary>
 <pre><code>
@@ -320,9 +311,7 @@ end
 copy run star
  </code></pre>
 </details>
-```
 
-```
 <details>
 <summary>NXOS6</summary>
 <pre><code>
@@ -376,9 +365,7 @@ end
 copy run star
  </code></pre>
 </details>
-```
 
-```
 <details>
 <summary>NXOS7</summary>
 <pre><code>
@@ -443,9 +430,7 @@ end
 copy run star
 </code></pre>
 </details>
-```
 
-```
 <details>
 <summary>R11</summary>
 <pre><code>
@@ -494,8 +479,6 @@ end
 wr
 </code></pre>
 </details>
-```
-
 Настройка Source Multicast
 
 <details>
