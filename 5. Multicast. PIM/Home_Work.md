@@ -43,7 +43,7 @@ interface Ethernet1/1
   no switchport
   medium p2p
   ip unnumbered loopback0
-  ip ospf authentication-key 3 OTUS
+  ip ospf authentication-key OTUS
   ip ospf network point-to-point
   no ip ospf passive-interface
   ip router ospf 1 area 0.0.0.1
@@ -86,7 +86,7 @@ interface Ethernet1/1
   no switchport
   medium p2p
   ip unnumbered loopback0
-  ip ospf authentication-key 3 OTUS
+  ip ospf authentication-key OTUS
   ip ospf network point-to-point
   no ip ospf passive-interface
   ip router ospf 1 area 0.0.0.0
@@ -97,7 +97,7 @@ interface Ethernet1/2
   no switchport
   medium p2p
   ip unnumbered loopback0
-  ip ospf authentication-key 3 OTUS
+  ip ospf authentication-key OTUS
   ip ospf network point-to-point
   no ip ospf passive-interface
   ip router ospf 1 area 0.0.0.0
@@ -108,7 +108,7 @@ interface Ethernet1/3
   no switchport
   medium p2p
   ip unnumbered loopback0
-  ip ospf authentication-key 3 OTUS
+  ip ospf authentication-key OTUS
   ip ospf network point-to-point
   no ip ospf passive-interface
   ip router ospf 1 area 0.0.0.0
@@ -118,7 +118,7 @@ interface Ethernet1/3
 interface Ethernet1/4
   no switchport
   ip address 10.15.0.6/31
-  ip ospf authentication-key 3 OTUS
+  ip ospf authentication-key OTUS
   ip ospf network point-to-point
   no ip ospf passive-interface
   ip router ospf 1 area 0.0.0.0
@@ -153,7 +153,7 @@ interface Ethernet1/1
   no switchport
   medium p2p
   ip unnumbered loopback0
-  ip ospf authentication-key 3 OTUS
+  ip ospf authentication-key OTUS
   ip ospf network point-to-point
   no ip ospf passive-interface
   ip router ospf 1 area 0.0.0.0
@@ -164,7 +164,7 @@ interface Ethernet1/2
   no switchport
   medium p2p
   ip unnumbered loopback0
-  ip ospf authentication-key 3 OTUS
+  ip ospf authentication-key OTUS
   ip ospf network point-to-point
   no ip ospf passive-interface
   ip router ospf 1 area 0.0.0.0
@@ -175,7 +175,7 @@ interface Ethernet1/3
   no switchport
   medium p2p
   ip unnumbered loopback0
-  ip ospf authentication-key 3 OTUS
+  ip ospf authentication-key OTUS
   ip ospf network point-to-point
   no ip ospf passive-interface
   ip router ospf 1 area 0.0.0.0
@@ -185,7 +185,7 @@ interface Ethernet1/3
 interface Ethernet1/4
   no switchport
   ip address 10.15.1.6/31
-  ip ospf authentication-key 3 OTUS
+  ip ospf authentication-key OTUS
   ip ospf network point-to-point
   no ip ospf passive-interface
   ip router ospf 1 area 0.0.0.0
@@ -220,7 +220,7 @@ interface Ethernet1/1
   no switchport
   medium p2p
   ip unnumbered loopback0
-  ip ospf authentication-key 3 OTUS
+  ip ospf authentication-key OTUS
   ip ospf network point-to-point
   no ip ospf passive-interface
   ip router ospf 1 area 0.0.0.1
@@ -230,7 +230,7 @@ interface Ethernet1/1
 interface Ethernet1/2
   no switchport
   ip address 10.16.0.0/31
-  ip ospf authentication-key 3 OTUS
+  ip ospf authentication-key OTUS
   ip ospf network point-to-point
   no ip ospf passive-interface
   ip router ospf 1 area 0.0.0.1
@@ -266,7 +266,7 @@ interface Ethernet1/1
   no switchport
   medium p2p
   ip unnumbered loopback0
-  ip ospf authentication-key 3 OTUS
+  ip ospf authentication-key OTUS
   ip ospf network point-to-point
   no ip ospf passive-interface
   ip router ospf 1 area 0.0.0.0
@@ -277,7 +277,7 @@ interface Ethernet1/2
   no switchport
   medium p2p
   ip unnumbered loopback0
-  ip ospf authentication-key 3 OTUS
+  ip ospf authentication-key OTUS
   ip ospf network point-to-point
   no ip ospf passive-interface
   ip router ospf 1 area 0.0.0.0
@@ -296,7 +296,7 @@ interface Ethernet1/4
   no switchport
   medium p2p
   ip unnumbered loopback0
-  ip ospf authentication-key 3 OTUS
+  ip ospf authentication-key OTUS
   ip ospf network point-to-point
   no ip ospf passive-interface
   ip router ospf 1 area 0.0.0.0
@@ -332,7 +332,7 @@ interface Ethernet1/1
   no switchport
   medium p2p
   ip unnumbered loopback0
-  ip ospf authentication-key 3 OTUS
+  ip ospf authentication-key OTUS
   ip ospf network point-to-point
   no ip ospf passive-interface
   ip router ospf 1 area 0.0.0.0
@@ -343,7 +343,7 @@ interface Ethernet1/2
   no switchport
   medium p2p
   ip unnumbered loopback0
-  ip ospf authentication-key 3 OTUS
+  ip ospf authentication-key OTUS
   ip ospf network point-to-point
   no ip ospf passive-interface
   ip router ospf 1 area 0.0.0.0
@@ -386,7 +386,7 @@ interface Ethernet1/1
   no switchport
   medium p2p
   ip unnumbered loopback0
-  ip ospf authentication-key 3 OTUS
+  ip ospf authentication-key OTUS
   ip ospf network point-to-point
   no ip ospf passive-interface
   ip router ospf 1 area 0.0.0.0
@@ -397,7 +397,7 @@ interface Ethernet1/2
   no switchport
   medium p2p
   ip unnumbered loopback0
-  ip ospf authentication-key 3 OTUS
+  ip ospf authentication-key OTUS
   ip ospf network point-to-point
   no ip ospf passive-interface
   ip router ospf 1 area 0.0.0.0
@@ -408,7 +408,7 @@ interface Ethernet1/3
   no switchport
   medium p2p
   ip unnumbered loopback0
-  ip ospf authentication-key 3 OTUS
+  ip ospf authentication-key OTUS
   ip ospf network point-to-point
   no ip ospf passive-interface
   ip router ospf 1 area 0.0.0.0
@@ -516,7 +516,6 @@ smcroute -j ens3 239.0.0.100
 </code></pre>
 </details>
 
-
 <details>
 <summary>Client14</summary>
 cat /etc/network/interfaces/
@@ -532,6 +531,7 @@ iface ens3 inet static
 smcroute -j ens3 239.0.0.100
 </code></pre>
 </details>
+
 
 А устройства SW9, SW10, SW11 выполняют просто функцию коммутатора.
 
@@ -650,3 +650,259 @@ end
 wr
 </code></pre>
 </details> 
+Теперь проверим IGMP:
+
+ <details> <summary>NXOS7</summary> <pre><code>
+NX7# show ip igmp groups 
+IGMP Connected Group Membership for VRF "default" - 1 total entries
+Type: S - Static, D - Dynamic, L - Local, T - SSM Translated, H - Host Proxy
+      * - Cache Only
+Group Address      Type Interface              Uptime    Expires   Last Reporter
+239.0.0.100        D   Ethernet1/4            18:01:49  00:04:15  10.10.12.10
+</code></pre> </details>
+
+ <details> <summary>NXOS5</summary> <pre><code>
+NX5# show ip igmp groups 
+IGMP Connected Group Membership for VRF "default" - 1 total entries
+Type: S - Static, D - Dynamic, L - Local, T - SSM Translated, H - Host Proxy
+      * - Cache Only
+Group Address      Type Interface              Uptime    Expires   Last Reporter
+239.0.0.100        D   Ethernet1/3            18:01:38  00:02:40  10.10.12.10
+</code></pre> </details>
+
+ <details> <summary>NXOS1</summary> <pre><code>
+NX1# show ip igmp groups 
+IGMP Connected Group Membership for VRF "default" - 1 total entries
+Type: S - Static, D - Dynamic, L - Local, T - SSM Translated, H - Host Proxy
+      * - Cache Only
+Group Address      Type Interface              Uptime    Expires   Last Reporter
+239.0.0.100        D   Ethernet1/2            01:54:09  00:03:28  10.10.11.2
+</code></pre> </details>
+
+ <details> <summary>SW11</summary> <pre><code>
+SW11# show ip igmp groups 
+IGMP Connected Group Membership
+Group Address    Interface                Uptime    Expires   Last Reporter   Group Accounted
+239.0.0.100      Vlan100                  01:53:00  00:02:17  10.10.11.2      
+224.0.1.40       Vlan100                  20:38:51  00:02:19  10.10.11.1    
+</code></pre> </details>
+
+ <details> <summary>SW9</summary> <pre><code>
+SW10#show ip igmp groups 
+IGMP Connected Group Membership
+Group Address    Interface                Uptime    Expires   Last Reporter   Group Accounted
+239.0.0.100      Vlan100                  00:01:32  00:01:37  10.10.12.10     
+224.0.1.40       Vlan100                  15:17:26  00:00:28  10.10.12.254  
+</code></pre> </details>
+
+А теперь PIM, начнём сначала с указанием соседств:
+
+ <details> <summary>NXOS2</summary> <pre><code>
+NX2# show ip pim neighbor 
+PIM Neighbor Status for VRF "default"
+Neighbor        Interface            Uptime    Expires   DR       Bidir-  BFD   
+ ECMP Redirect
+                                                         Priority Capable State 
+    Capable
+1.1.1.6         Ethernet1/1          20:52:24  00:01:44  1        yes     n/a   
+  no
+1.1.1.7         Ethernet1/2          20:52:24  00:01:37  1        yes     n/a   
+  no
+1.1.1.5         Ethernet1/3          20:52:24  00:01:30  1        yes     n/a   
+  no
+10.15.0.7       Ethernet1/4          20:14:32  00:01:28  1        no     n/a    
+ no
+</code></pre> </details>
+
+ <details> <summary>NXOS3</summary> <pre><code>
+NX3# show ip pim neighbor 
+PIM Neighbor Status for VRF "default"
+Neighbor        Interface            Uptime    Expires   DR       Bidir-  BFD   
+ ECMP Redirect
+                                                         Priority Capable State 
+    Capable
+1.1.1.6         Ethernet1/1          21:18:38  00:01:37  1        yes     n/a   
+  no
+1.1.1.7         Ethernet1/2          3d05h     00:01:32  1        yes     n/a   
+  no
+1.1.1.5         Ethernet1/3          3d05h     00:01:37  1        yes     n/a   
+  no
+10.15.1.7       Ethernet1/4          20:15:41  00:01:40  1        no     n/a    
+ no
+</code></pre> </details>
+
+ <details> <summary>NXOS4</summary> <pre><code>
+NX4# show ip pim neighbor 
+PIM Neighbor Status for VRF "default"
+Neighbor        Interface            Uptime    Expires   DR       Bidir-  BFD   
+ ECMP Redirect
+                                                         Priority Capable State 
+    Capable
+1.1.1.1         Ethernet1/1          3d05h     00:01:42  1        yes     n/a   
+  no
+10.16.0.1       Ethernet1/2          20:16:35  00:01:20  1        no     n/a    
+ no
+</code></pre> </details>
+
+А теперь как распределяется мультикаст подписка за 239.0.0.100:
+
+<details> 
+<summary>NXOS1</summary>
+<pre><code>
+NX1# show ip mroute 
+IP Multicast Routing Table for VRF "default"
+!
+(*, 232.0.0.0/8), uptime: 3d13h, pim ip 
+  Incoming interface: Null, RPF nbr: 0.0.0.0
+  Outgoing interface list: (count: 0)
+!
+(*, 239.0.0.100/32), uptime: 02:21:04, igmp ip pim 
+  Incoming interface: Ethernet1/1, RPF nbr: 1.1.1.4
+  Outgoing interface list: (count: 1)
+    Ethernet1/2, uptime: 02:21:04, igmp
+!
+(10.10.10.2/32, 239.0.0.100/32), uptime: 02:21:04, ip mrib pim 
+  Incoming interface: Ethernet1/1, RPF nbr: 1.1.1.4
+  Outgoing interface list: (count: 1)
+    Ethernet1/2, uptime: 02:21:04, mrib
+</code></pre> </details>
+
+ <details> <summary>NXOS2</summary> <pre><code>
+NX2# show ip mroute 
+IP Multicast Routing Table for VRF "default"
+!
+(*, 232.0.0.0/8), uptime: 20:58:46, pim ip 
+  Incoming interface: Null, RPF nbr: 0.0.0.0
+  Outgoing interface list: (count: 0)
+!
+(*, 239.0.0.100/32), uptime: 15:42:29, pim ip 
+  Incoming interface: Ethernet1/4, RPF nbr: 10.15.0.7
+  Outgoing interface list: (count: 1)
+    Ethernet1/3, uptime: 15:42:29, pim
+!
+(10.10.10.2/32, 239.0.0.100/32), uptime: 02:08:48, pim mrib ip 
+  Incoming interface: Ethernet1/1, RPF nbr: 1.1.1.6
+  Outgoing interface list: (count: 1)
+    Ethernet1/3, uptime: 02:08:48, pim
+</code></pre> </details>
+
+ <details> <summary>NXOS3</summary> <pre><code>
+NX3# show ip mroute 
+IP Multicast Routing Table for VRF "default"
+!
+(*, 232.0.0.0/8), uptime: 3d13h, pim ip 
+  Incoming interface: Null, RPF nbr: 0.0.0.0
+  Outgoing interface list: (count: 0)
+!
+(10.10.10.2/32, 239.0.0.100/32), uptime: 02:09:29, pim ip 
+  Incoming interface: Ethernet1/1, RPF nbr: 1.1.1.6
+  Outgoing interface list: (count: 1)
+    Ethernet1/4, uptime: 02:06:43, pim
+</code></pre> </details>
+
+<details> 
+<summary>NXOS4</summary>
+<pre><code>
+NX4# show ip mroute 
+IP Multicast Routing Table for VRF "default"
+!
+(*, 232.0.0.0/8), uptime: 3d13h, pim ip 
+  Incoming interface: Null, RPF nbr: 0.0.0.0
+  Outgoing interface list: (count: 0)
+!
+(*, 239.0.0.100/32), uptime: 02:20:05, pim ip 
+  Incoming interface: Ethernet1/2, RPF nbr: 10.16.0.1
+  Outgoing interface list: (count: 1)
+    Ethernet1/1, uptime: 02:20:05, pim
+!
+(10.10.10.2/32, 239.0.0.100/32), uptime: 02:20:04, pim mrib ip 
+  Incoming interface: Ethernet1/2, RPF nbr: 10.16.0.1
+  Outgoing interface list: (count: 1)
+    Ethernet1/1, uptime: 02:20:04, pim
+</code></pre> </details>
+
+<details> 
+<summary>NXOS5</summary>
+<pre><code>
+NX5# show ip mroute 
+IP Multicast Routing Table for VRF "default"
+!
+(*, 232.0.0.0/8), uptime: 3d13h, pim ip 
+  Incoming interface: Null, RPF nbr: 0.0.0.0
+  Outgoing interface list: (count: 0)
+!
+(*, 239.0.0.100/32), uptime: 15:58:55, pim ip igmp 
+  Incoming interface: Ethernet1/1, RPF nbr: 1.1.1.2
+  Outgoing interface list: (count: 1)
+    Ethernet1/3, uptime: 15:58:55, igmp
+!
+(10.10.10.2/32, 239.0.0.100/32), uptime: 02:25:14, ip mrib pim 
+  Incoming interface: Ethernet1/1, RPF nbr: 1.1.1.2
+  Outgoing interface list: (count: 1)
+    Ethernet1/3, uptime: 02:25:14, mrib
+</code></pre> </details>
+
+<details>
+<summary>NXOS6</summary>
+    <pre><code>
+NX6# show ip mroute 
+IP Multicast Routing Table for VRF "default"
+!
+(*, 232.0.0.0/8), uptime: 21:11:39, pim ip 
+  Incoming interface: Null, RPF nbr: 0.0.0.0
+  Outgoing interface list: (count: 0)
+!
+(10.10.10.2/32, 239.0.0.100/32), uptime: 01:57:55, ip pim 
+  Incoming interface: Ethernet1/3, RPF nbr: 10.10.10.2
+  Outgoing interface list: (count: 2)
+    Ethernet1/2, uptime: 01:55:09, pim
+    Ethernet1/1, uptime: 01:57:55, pim
+</code></pre> </details>
+
+<details> 
+<summary>NXOS7</summary>
+<pre><code>
+NX7# show ip mroute 
+IP Multicast Routing Table for VRF "default"
+!
+(*, 232.0.0.0/8), uptime: 3d13h, pim ip 
+  Incoming interface: Null, RPF nbr: 0.0.0.0
+  Outgoing interface list: (count: 0)
+</code></pre> </details>
+
+<details> 
+<summary>R11</summary>
+<pre><code>
+R11# show ip mroute 
+IP Multicast Routing Table
+Flags: D - Dense, S - Sparse, B - Bidir Group, s - SSM Group, C - Connected,
+       L - Local, P - Pruned, R - RP-bit set, F - Register flag,
+       T - SPT-bit set, J - Join SPT, M - MSDP created entry, E - Extranet,
+       X - Proxy Join Timer Running, A - Candidate for MSDP Advertisement,
+       U - URD, I - Received Source Specific Host Report, 
+       Z - Multicast Tunnel, z - MDT-data group sender, 
+       Y - Joined MDT-data group, y - Sending to MDT-data group, 
+       V - RD & Vector, v - Vector
+Outgoing interface flags: H - Hardware switched, A - Assert winner
+ Timers: Uptime/Expires
+ Interface state: Interface, Next-Hop or VCD, State/Mode
+!
+(*, 239.0.0.100), 20:20:36/00:03:06, RP 1.1.1.11, flags: S
+  Incoming interface: Null, RPF nbr 0.0.0.0
+  Outgoing interface list:
+    Ethernet0/2, Forward/Sparse, 02:07:17/00:03:04
+    Ethernet0/0, Forward/Sparse, 15:43:43/00:03:06
+!
+(10.10.10.2, 239.0.0.100), 02:10:03/00:02:40, flags: T
+  Incoming interface: Ethernet0/1, RPF nbr 10.15.1.6
+  Outgoing interface list:
+    Ethernet0/2, Forward/Sparse, 02:07:17/00:03:04
+!          
+(*, 224.0.1.40), 20:20:48/00:02:16, RP 1.1.1.11, flags: SJCL
+  Incoming interface: Null, RPF nbr 0.0.0.0
+  Outgoing interface list:
+    Loopback0, Forward/Sparse, 20:20:47/00:02:16
+</code></pre> </details>
+
+Исходя из данных мы можем нарисовать как распределился поток трафика:
+
