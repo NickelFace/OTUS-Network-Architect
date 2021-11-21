@@ -904,5 +904,6 @@ Outgoing interface flags: H - Hardware switched, A - Assert winner
     Loopback0, Forward/Sparse, 20:20:47/00:02:16
 </code></pre> </details>
 
-Исходя из данных мы можем нарисовать как распределился поток трафика:
+Исходя из данных мы можем нарисовать поток трафика:
 
+![](./img/Schema2.png)
