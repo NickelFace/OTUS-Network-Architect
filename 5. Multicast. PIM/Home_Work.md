@@ -492,10 +492,11 @@ iface ens3  inet static
         gateway 10.10.10.1
 </code></pre>
 Запуск источника выполняется командой:
-<code> 
+<pre><code> 
 tsplay ./video.ts 239.0.0.100:1234 -loop -i 10.10.10.2 &
-</code>
+</code></pre>
 </details>
+
 
 Настройка клиентов:
 
@@ -510,10 +511,11 @@ iface ens3 inet static
         gateway 10.10.12.254
 </code></pre>
 Запуск подписки на мультикаст рассылку выполняется командой:
-<code> 
+<pre><code> 
 smcroute -j ens3 239.0.0.100
-</code>
+</code></pre>
 </details>
+
 
 <details>
 <summary>Client14</summary>
@@ -526,9 +528,9 @@ iface ens3 inet static
         gateway 10.10.11.254
 </code></pre>
 Запуск подписки на мультикаст рассылку выполняется командой:
-<code> 
+<pre><code> 
 smcroute -j ens3 239.0.0.100
-</code>
+</code></pre>
 </details>
 
 А устройства SW9, SW10, SW11 выполняют просто функцию коммутатора.
