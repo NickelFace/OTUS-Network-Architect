@@ -563,7 +563,6 @@ interface Ethernet0/1
 !
 interface Vlan100
  ip address 10.10.10.1 255.255.255.0
- ip pim sparse-mode
 !
 ip route 0.0.0.0 0.0.0.0 10.10.10.254
 end
@@ -599,7 +598,6 @@ interface Ethernet0/2
 !
 interface Vlan100
  ip address 10.10.12.254 255.255.255.0
- ip pim sparse-mode
 !
 ip sla 1
  icmp-echo 10.10.12.2 source-interface Vlan100
@@ -642,7 +640,6 @@ interface Ethernet0/1
 !         
 interface Vlan100
  ip address 10.10.11.1 255.255.255.0
- ip pim sparse-mode
 !
 ip route 0.0.0.0 0.0.0.0 10.10.11.254
 !
@@ -650,6 +647,7 @@ end
 wr
 </code></pre>
 </details> 
+
 Теперь проверим IGMP:
 
  <details> <summary>NXOS7</summary> <pre><code>
