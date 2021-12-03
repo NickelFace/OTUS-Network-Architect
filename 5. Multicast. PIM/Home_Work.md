@@ -83,8 +83,9 @@ feature ospf
 feature pim
 !
 ip pim bsr bsr-candidate loopback0 priority 90
-ip pim bsr rp-candidate loopback0 group-list 224.0.0.0/4
+ip pim bsr rp-candidate loopback0 group-list 224.0.0.0/4 priority 90
 ip pim log-neighbor-changes
+ip pim ssm range 232.0.0.0/8
 ip pim bsr forward listen
 !
 router ospf 1
@@ -159,8 +160,9 @@ feature ospf
 feature pim
 !
 ip pim bsr bsr-candidate loopback0 priority 90
-ip pim bsr rp-candidate loopback0 group-list 224.0.0.0/4
+ip pim bsr rp-candidate loopback0 group-list 224.0.0.0/4 priority 90
 ip pim log-neighbor-changes
+ip pim ssm range 232.0.0.0/8
 ip pim bsr forward listen
 !
 router ospf 1
@@ -235,8 +237,9 @@ feature ospf
 feature pim
 !
 ip pim bsr bsr-candidate loopback0 priority 90
-ip pim bsr rp-candidate loopback0 group-list 224.0.0.0/4
+ip pim bsr rp-candidate loopback0 group-list 224.0.0.0/4 priority 90
 ip pim log-neighbor-changes
+ip pim ssm range 232.0.0.0/8
 ip pim bsr forward listen
 !
 router ospf 1
@@ -706,6 +709,141 @@ end
 wr
 </code></pre>
 </details> 
+Теперь проверим RP:
+
+<details> <summary>NXOS1</summary> <pre><code>
+NX1(config)# show ip pim rp
+PIM RP Status Information for VRF "default"
+BSR listen-only mode
+BSR: 1.1.1.11, uptime: 22:01:27, expires: 00:01:54,
+     priority: 100, hash-length: 32
+Auto-RP disabled
+BSR RP Candidate policy: None
+BSR RP policy: None
+Auto-RP Announce policy: None
+Auto-RP Discovery policy: None
+!
+RP: 1.1.1.2, (0), 
+ uptime: 21:49:40   priority: 90, 
+ RP-source: 1.1.1.11 (B),  
+ group ranges:
+ 224.0.0.0/4   , expires: 00:02:14 (B)
+RP: 1.1.1.3, (0), 
+ uptime: 21:49:25   priority: 90, 
+ RP-source: 1.1.1.11 (B),  
+ group ranges:
+ 224.0.0.0/4   , expires: 00:02:14 (B)
+RP: 1.1.1.4, (0), 
+ uptime: 21:49:21   priority: 90, 
+ RP-source: 1.1.1.11 (B),  
+ group ranges:
+ 224.0.0.0/4   , expires: 00:02:14 (B)
+RP: 1.1.1.11, (0), 
+ uptime: 21:52:31   priority: 100, 
+ RP-source: 1.1.1.11 (B),  
+ group ranges:
+ 224.0.0.0/4   , expires: 00:02:14 (B)
+</code></pre> </details>
+
+<details> <summary>NXOS5</summary> <pre><code>
+NX5(config)# show ip pim rp
+PIM RP Status Information for VRF "default"
+BSR: 1.1.1.11, uptime: 22:00:29, expires: 00:01:52,
+     priority: 100, hash-length: 32
+Auto-RP disabled
+BSR RP Candidate policy: None
+BSR RP policy: None
+Auto-RP Announce policy: None
+Auto-RP Discovery policy: None
+!
+RP: 1.1.1.2, (0), 
+ uptime: 21:48:42   priority: 90, 
+ RP-source: 1.1.1.11 (B),  
+ group ranges:
+ 224.0.0.0/4   , expires: 00:02:12 (B)
+RP: 1.1.1.3, (0), 
+ uptime: 21:48:26   priority: 90, 
+ RP-source: 1.1.1.11 (B),  
+ group ranges:
+ 224.0.0.0/4   , expires: 00:02:12 (B)
+RP: 1.1.1.4, (0), 
+ uptime: 21:48:22   priority: 90, 
+ RP-source: 1.1.1.11 (B),  
+ group ranges:
+ 224.0.0.0/4   , expires: 00:02:12 (B)
+RP: 1.1.1.11, (0), 
+ uptime: 21:51:32   priority: 100, 
+ RP-source: 1.1.1.11 (B),  
+ group ranges:
+ 224.0.0.0/4   , expires: 00:02:12 (B)
+</code></pre> </details>
+
+<details> <summary>NXOS6</summary> <pre><code>
+NX6(config)# show ip pim rp
+PIM RP Status Information for VRF "default"
+BSR: 1.1.1.11, uptime: 21:56:24, expires: 00:01:53,
+     priority: 100, hash-length: 32
+Auto-RP disabled
+BSR RP Candidate policy: None
+BSR RP policy: None
+Auto-RP Announce policy: None
+Auto-RP Discovery policy: None
+!
+RP: 1.1.1.2, (0), 
+ uptime: 21:44:37   priority: 90, 
+ RP-source: 1.1.1.11 (B),  
+ group ranges:
+ 224.0.0.0/4   , expires: 00:02:13 (B)
+RP: 1.1.1.3, (0), 
+ uptime: 21:44:21   priority: 90, 
+ RP-source: 1.1.1.11 (B),  
+ group ranges:
+ 224.0.0.0/4   , expires: 00:02:13 (B)
+RP: 1.1.1.4, (0), 
+ uptime: 21:44:18   priority: 90, 
+ RP-source: 1.1.1.11 (B),  
+ group ranges:
+ 224.0.0.0/4   , expires: 00:02:13 (B)
+RP: 1.1.1.11, (0), 
+ uptime: 21:47:28   priority: 100, 
+ RP-source: 1.1.1.11 (B),  
+ group ranges:
+ 224.0.0.0/4   , expires: 00:02:13 (B)
+</code></pre> </details>
+
+<details> <summary>NXOS7</summary> <pre><code>
+NX7(config)# show ip pim rp
+PIM RP Status Information for VRF "default"
+BSR listen-only mode
+BSR: 1.1.1.11, uptime: 21:59:30, expires: 00:01:50,
+     priority: 100, hash-length: 32
+Auto-RP disabled
+BSR RP Candidate policy: None
+BSR RP policy: None
+Auto-RP Announce policy: None
+Auto-RP Discovery policy: None
+!
+RP: 1.1.1.2, (0), 
+ uptime: 21:47:43   priority: 90, 
+ RP-source: 1.1.1.11 (B),  
+ group ranges:
+ 224.0.0.0/4   , expires: 00:02:10 (B)
+RP: 1.1.1.3, (0), 
+ uptime: 21:47:27   priority: 90, 
+ RP-source: 1.1.1.11 (B),  
+ group ranges:
+ 224.0.0.0/4   , expires: 00:02:10 (B)
+RP: 1.1.1.4, (0), 
+ uptime: 21:47:24   priority: 90, 
+ RP-source: 1.1.1.11 (B),  
+ group ranges:
+ 224.0.0.0/4   , expires: 00:02:10 (B)
+RP: 1.1.1.11, (0), 
+ uptime: 21:50:34   priority: 100, 
+ RP-source: 1.1.1.11 (B),  
+ group ranges:
+ 224.0.0.0/4   , expires: 00:02:10 (B)
+</code></pre> </details>
 
 Теперь проверим IGMP:
 
@@ -734,22 +872,6 @@ Type: S - Static, D - Dynamic, L - Local, T - SSM Translated, H - Host Proxy
       * - Cache Only
 Group Address      Type Interface              Uptime    Expires   Last Reporter
 239.0.0.100        D   Ethernet1/2            01:54:09  00:03:28  10.10.11.2
-</code></pre> </details>
-
- <details> <summary>SW11</summary> <pre><code>
-SW11# show ip igmp groups 
-IGMP Connected Group Membership
-Group Address    Interface                Uptime    Expires   Last Reporter   Group Accounted
-239.0.0.100      Vlan100                  01:53:00  00:02:17  10.10.11.2      
-224.0.1.40       Vlan100                  20:38:51  00:02:19  10.10.11.1    
-</code></pre> </details>
-
- <details> <summary>SW9</summary> <pre><code>
-SW10#show ip igmp groups 
-IGMP Connected Group Membership
-Group Address    Interface                Uptime    Expires   Last Reporter   Group Accounted
-239.0.0.100      Vlan100                  00:01:32  00:01:37  10.10.12.10     
-224.0.1.40       Vlan100                  15:17:26  00:00:28  10.10.12.254  
 </code></pre> </details>
 
 А теперь PIM, начнём сначала с указанием соседств:
