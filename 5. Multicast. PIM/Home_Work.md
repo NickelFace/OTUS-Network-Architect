@@ -33,7 +33,8 @@ hostname NX1
 feature ospf
 feature pim
 !
-ip pim rp-address 1.1.1.11
+ip pim log-neighbor-changes
+ip pim bsr listen
 !
 router ospf 1
   router-id 1.1.1.1
@@ -62,6 +63,11 @@ interface loopback0
   ip address 1.1.1.1/24
   ip router ospf 1 area 0.0.0.1
 !
+line console
+  exec-timeout 0
+line vty
+  exec-timeout 0
+!
 end
 copy run star 
 </code></pre>
@@ -76,7 +82,10 @@ hostname NX2
 feature ospf
 feature pim
 !
-ip pim rp-address 1.1.1.11
+ip pim bsr bsr-candidate loopback0 priority 90
+ip pim bsr rp-candidate loopback0 group-list 224.0.0.0/4
+ip pim log-neighbor-changes
+ip pim bsr forward listen
 !
 router ospf 1
   router-id 1.1.1.2
@@ -128,6 +137,12 @@ interface Ethernet1/4
 interface loopback0
   ip address 1.1.1.2/24
   ip router ospf 1 area 0.0.0.0
+  ip pim sparse-mode
+!
+line console
+  exec-timeout 0
+line vty
+  exec-timeout 0
 !
 end
 copy run star
@@ -137,13 +152,16 @@ copy run star
 <details>
   <summary>NXOS3</summary>
 <pre><code>
- conf t
+conf t
 !
 hostname NX3
 feature ospf
 feature pim
 !
-ip pim rp-address 1.1.1.11
+ip pim bsr bsr-candidate loopback0 priority 90
+ip pim bsr rp-candidate loopback0 group-list 224.0.0.0/4
+ip pim log-neighbor-changes
+ip pim bsr forward listen
 !
 router ospf 1
   router-id 1.1.1.3
@@ -195,6 +213,12 @@ interface Ethernet1/4
 interface loopback0
   ip address 1.1.1.3/24
   ip router ospf 1 area 0.0.0.0
+  ip pim sparse-mode
+!
+line console
+  exec-timeout 0
+line vty
+  exec-timeout 0
 !
 end
 copy run star
@@ -210,7 +234,10 @@ hostname NX4
 feature ospf
 feature pim
 !
-ip pim rp-address 1.1.1.11
+ip pim bsr bsr-candidate loopback0 priority 90
+ip pim bsr rp-candidate loopback0 group-list 224.0.0.0/4
+ip pim log-neighbor-changes
+ip pim bsr forward listen
 !
 router ospf 1
   router-id 1.1.1.4
@@ -240,6 +267,12 @@ interface Ethernet1/2
 interface loopback0
   ip address 1.1.1.4/24
   ip router ospf 1 area 0.0.0.1
+  ip pim sparse-mode
+!
+line console
+  exec-timeout 0
+line vty
+  exec-timeout 0
 !
 end
 copy run star
@@ -254,7 +287,8 @@ conf t
 feature ospf
 feature pim
 !
-ip pim rp-address 1.1.1.11
+ip pim log-neighbor-changes
+ip pim bsr listen
 !
 hostname NX5
 !
@@ -307,6 +341,11 @@ interface loopback0
   ip address 1.1.1.5/24
   ip router ospf 1 area 0.0.0.0
 !
+line console
+  exec-timeout 0
+line vty
+  exec-timeout 0
+!
 end
 copy run star
  </code></pre>
@@ -320,7 +359,8 @@ conf t
 feature ospf
 feature pim
 !
-ip pim rp-address 1.1.1.11
+ip pim log-neighbor-changes
+ip pim bsr listen
 !
 hostname NX6
 !
@@ -361,6 +401,11 @@ interface loopback0
   ip address 1.1.1.6/24
   ip router ospf 1 area 0.0.0.0
 !
+line console
+  exec-timeout 0
+line vty
+  exec-timeout 0
+!
 end
 copy run star
  </code></pre>
@@ -376,7 +421,8 @@ hostname NX7
 feature ospf
 feature pim
 !
-ip pim rp-address 1.1.1.11
+ip pim log-neighbor-changes
+ip pim bsr listen
 !
 router ospf 1
   router-id 1.1.1.7
@@ -426,6 +472,11 @@ interface loopback0
   ip address 1.1.1.7/24
   ip router ospf 1 area 0.0.0.0
 !
+line console
+  exec-timeout 0
+line vty
+  exec-timeout 0
+!
 end
 copy run star
 </code></pre>
@@ -452,6 +503,8 @@ interface Ethernet0/0
  ip ospf authentication-key OTUS
  ip ospf network point-to-point
  ip ospf 1 area 0
+ duplex full
+ no shutdown
 !
 interface Ethernet0/1
  ip address 10.15.1.7 255.255.255.254
@@ -459,6 +512,8 @@ interface Ethernet0/1
  ip ospf authentication-key OTUS
  ip ospf network point-to-point
  ip ospf 1 area 0
+ duplex full
+ no shutdown
 !
 interface Ethernet0/2
  ip address 10.16.0.1 255.255.255.254
@@ -466,6 +521,8 @@ interface Ethernet0/2
  ip ospf authentication-key OTUS
  ip ospf network point-to-point
  ip ospf 1 area 1
+ duplex full
+ no shutdown
 !
 interface Loopback0
  ip address 1.1.1.11 255.255.255.0
@@ -473,12 +530,14 @@ interface Loopback0
  ip ospf 1 area 0
 !
 ip multicast-routing 
-ip pim rp-address 1.1.1.11
+ip pim bsr-candidate Loopback0 32 100
+ip pim rp-candidate Loopback0 priority 100
 ! 
 end
 wr
 </code></pre>
 </details>
+
 Настройка Source Multicast
 
 <details>
