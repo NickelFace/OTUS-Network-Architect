@@ -16,7 +16,7 @@
 
 За основу взял схему из раздела [OSPF](https://github.com/NickelFace/OTUS-Network-Architect/blob/main/2.Overlay_OSPF/Home_Work.md), где указал логику построения сети ЦОД, а  теперь требуется организовать  мультикаст в данной топологии.
 
-Так как в интернете довольно мало информации на данную тематику,а [некоторые статьи](https://linkmeup.ru/blog/1204/)  не подойдут для EVE-NG, то придется организовать свою статью. Первая проблема с которой столкнулся, это как организовать источник мультикаста, а заодно и клиента. За решение данного вопроса я воспользовалься [инструкцией](https://www.eve-ng.net/index.php/documentation/howtos/howto-save-your-settings-to-be-as-default-on-qemu-node/) по созданию своего [образа](https://disk.yandex.ru/d/_UKl3leYfNVqGA). Для организации сервера мне потребовался пакет [tstools](https://onstartup.ru/utility/tstools/), а для организации клиента [smcroute](https://onstartup.ru/set/smcroute/). 
+Так как в интернете довольно мало информации на данную тематику,а [некоторые статьи](https://linkmeup.ru/blog/1204/)  не подойдут(на сервере нет видеокарты, только консоль) для EVE-NG, то придется организовать свою статью. Первая проблема с которой столкнулся, это как организовать источник мультикаста, а заодно и клиента. За решение данного вопроса я воспользовался [инструкцией](https://www.eve-ng.net/index.php/documentation/howtos/howto-save-your-settings-to-be-as-default-on-qemu-node/) по созданию своего [образа](https://disk.yandex.ru/d/_UKl3leYfNVqGA). Для организации сервера мне потребовался пакет [tstools](https://onstartup.ru/utility/tstools/), а для организации клиента [smcroute](https://onstartup.ru/set/smcroute/). 
 
 
 
@@ -558,8 +558,6 @@ iface ens3  inet static
 tsplay ./video.ts 239.0.0.100:1234 -loop -i 10.10.10.2 &
 </code></pre>
 </details>
-
-
 Настройка клиентов:
 
 <details>
@@ -593,8 +591,6 @@ iface ens3 inet static
 smcroute -j ens3 239.0.0.100
 </code></pre>
 </details>
-
-
 А устройства SW9, SW10, SW11 выполняют просто функцию коммутатора.
 
 <details>
