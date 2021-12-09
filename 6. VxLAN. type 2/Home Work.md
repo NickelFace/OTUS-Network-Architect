@@ -723,6 +723,27 @@ NX5#  sh nve peers
 Interface Peer-IP          State LearnType Uptime   Router-Mac       
 --------- ---------------  ----- --------- -------- -----------------
 nve1      1.1.1.6          Up    CP        3d22h    n/a  
+!
+NX5#  sh bgp l2vpn evpn
+BGP routing table information for VRF default, address family L2VPN EVPN
+BGP table version is 12037, Local Router ID is 1.1.1.5
+Status: s-suppressed, x-deleted, S-stale, d-dampened, h-history, *-valid, >-best
+Path type: i-internal, e-external, c-confed, l-local, a-aggregate, r-redist, I-i
+njected
+Origin codes: i - IGP, e - EGP, ? - incomplete, | - multipath, & - backup, 2 - b
+est2
+!
+   Network            Next Hop            Metric     LocPrf     Weight Path
+Route Distinguisher: 1.1.1.5:32777    (L2VNI 10010)
+*>l[3]:[0]:[32]:[1.1.1.5]/88
+                      1.1.1.5                           100      32768 i
+*>i[3]:[0]:[32]:[1.1.1.6]/88
+                      1.1.1.6                           100          0 i
+
+Route Distinguisher: 1.1.1.6:32777
+* i[3]:[0]:[32]:[1.1.1.6]/88
+                      1.1.1.6                           100          0 i
+*>i                   1.1.1.6                           100          0 i
 </code></pre>
 </details>
 <details>
@@ -733,6 +754,48 @@ Interface Peer-IP          State LearnType Uptime   Router-Mac
 --------- ---------------  ----- --------- -------- -----------------
 nve1      1.1.1.5          Up    CP        3d22h    n/a              
 nve1      1.1.1.7          Up    CP        10:50:21 n/a     
+!
+NX6# sh bgp l2vpn evpn
+BGP routing table information for VRF default, address family L2VPN EVPN
+BGP table version is 13061, Local Router ID is 1.1.1.6
+Status: s-suppressed, x-deleted, S-stale, d-dampened, h-history, *-valid, >-best
+Path type: i-internal, e-external, c-confed, l-local, a-aggregate, r-redist, I-i
+njected
+Origin codes: i - IGP, e - EGP, ? - incomplete, | - multipath, & - backup, 2 - b
+est2
+!
+   Network            Next Hop            Metric     LocPrf     Weight Path
+Route Distinguisher: 1.1.1.5:32777
+* i[3]:[0]:[32]:[1.1.1.5]/88
+                      1.1.1.5                           100          0 i
+*>i                   1.1.1.5                           100          0 i
+
+Route Distinguisher: 1.1.1.6:32777    (L2VNI 10010)
+*>i[3]:[0]:[32]:[1.1.1.5]/88
+                      1.1.1.5                           100          0 i
+*>l[3]:[0]:[32]:[1.1.1.6]/88
+                      1.1.1.6                           100      32768 i
+
+Route Distinguisher: 1.1.1.6:32778    (L2VNI 10011)
+*>i[2]:[0]:[0]:[48]:[0050.7966.680e]:[0]:[0.0.0.0]/216
+                      1.1.1.7                           100          0 i
+*>i[2]:[0]:[0]:[48]:[0050.7966.680e]:[32]:[10.10.11.2]/248
+                      1.1.1.7                           100          0 i
+*>l[3]:[0]:[32]:[1.1.1.6]/88
+                      1.1.1.6                           100      32768 i
+*>i[3]:[0]:[32]:[1.1.1.7]/88
+                      1.1.1.7                           100          0 i
+
+Route Distinguisher: 1.1.1.7:32778
+*>i[2]:[0]:[0]:[48]:[0050.7966.680e]:[0]:[0.0.0.0]/216
+                      1.1.1.7                           100          0 i
+* i                   1.1.1.7                           100          0 i
+*>i[2]:[0]:[0]:[48]:[0050.7966.680e]:[32]:[10.10.11.2]/248
+                      1.1.1.7                           100          0 i
+* i                   1.1.1.7                           100          0 i
+* i[3]:[0]:[32]:[1.1.1.7]/88
+                      1.1.1.7                           100          0 i
+*>i                   1.1.1.7                           100          0 i
 </code></pre>
 </details>
 <details>
@@ -742,5 +805,30 @@ NX7# sh nve peers
 Interface Peer-IP          State LearnType Uptime   Router-Mac       
 --------- ---------------  ----- --------- -------- -----------------
 nve1      1.1.1.6          Up    CP        10:50:09 n/a  
+!
+NX7#  sh bgp l2vpn evpn
+BGP routing table information for VRF default, address family L2VPN EVPN
+BGP table version is 1890, Local Router ID is 1.1.1.7
+Status: s-suppressed, x-deleted, S-stale, d-dampened, h-history, *-valid, >-best
+Path type: i-internal, e-external, c-confed, l-local, a-aggregate, r-redist, I-i
+njected
+Origin codes: i - IGP, e - EGP, ? - incomplete, | - multipath, & - backup, 2 - b
+est2
+!
+   Network            Next Hop            Metric     LocPrf     Weight Path
+Route Distinguisher: 1.1.1.6:32778
+* i[3]:[0]:[32]:[1.1.1.6]/88
+                      1.1.1.6                           100          0 i
+*>i                   1.1.1.6                           100          0 i
+
+Route Distinguisher: 1.1.1.7:32778    (L2VNI 10011)
+*>l[2]:[0]:[0]:[48]:[0050.7966.680e]:[0]:[0.0.0.0]/216
+                      1.1.1.7                           100      32768 i
+*>l[2]:[0]:[0]:[48]:[0050.7966.680e]:[32]:[10.10.11.2]/248
+                      1.1.1.7                           100      32768 i
+*>i[3]:[0]:[32]:[1.1.1.6]/88
+                      1.1.1.6                           100          0 i
+*>l[3]:[0]:[32]:[1.1.1.7]/88
+                      1.1.1.7                           100      32768 i
 </code></pre>
 </details>
