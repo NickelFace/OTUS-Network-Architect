@@ -13,9 +13,9 @@
 
 ![Scheme](\img\Scheme.png)
 
-```
 **Настройка NEXUS:**
 
+```
  <details>
 <summary>NXOS2</summary>
 <pre><code>
@@ -91,8 +91,6 @@ copy run star
 </code></pre>
 </details>
 ```
-
-
 
 ```
 <details>
@@ -172,7 +170,7 @@ copy run star
 ```
 
 <details>
-  <summary>NXOS3</summary>
+  <summary>NXOS5</summary>
 <pre><code>
 conf t
 !
@@ -185,11 +183,34 @@ feature interface-vlan
 feature vn-segment-vlan-based
 feature nv overlay
 !
-router ospf 1
-  router-id 1.1.1.5
-  passive-interface default
+fabric forwarding anycast-gateway-mac 0001.0001.0001
+vlan 1,10
+vlan 10
+  vn-segment 10010
+!
+interface Vlan10
+  no shutdown
+  ip address 10.10.10.254/24
+  fabric forwarding mode anycast-gateway
+!
+interface nve1
+  no shutdown
+  host-reachability protocol bgp
+  source-interface loopback0
+  member vni 10010
+    ingress-replication protocol bgp
 !
 interface Ethernet1/1
+  no switchport
+  medium p2p
+  ip unnumbered loopback0
+  ip ospf authentication-key 3 e7cddfe7d0564e2c
+  ip ospf network point-to-point
+  no ip ospf passive-interface
+  ip router ospf 1 area 0.0.0.0
+  no shutdown
+!
+interface Ethernet1/2
   no switchport
   medium p2p
   ip unnumbered loopback0
@@ -203,16 +224,6 @@ interface Ethernet1/3
   switchport mode trunk
   switchport trunk allowed vlan 10
 !
-interface Ethernet1/3
-  no switchport
-  medium p2p
-  ip unnumbered loopback0
-  ip ospf authentication-key 3 e7cddfe7d0564e2c
-  ip ospf network point-to-point
-  no ip ospf passive-interface
-  ip router ospf 1 area 0.0.0.0
-  no shutdown
-!
 interface Ethernet1/4
   no switchport
   medium p2p
@@ -224,32 +235,29 @@ interface Ethernet1/4
   no shutdown
 !
 interface loopback0
-  ip address 1.1.1.3/24
+  ip address 1.1.1.5/24
   ip router ospf 1 area 0.0.0.0
-!
-router ospf 1
-  router-id 1.1.1.3
-  passive-interface default
-!
-router bgp 65000
-  template peer LEAF
-    remote-as 65000
-    update-source loopback0
-    address-family l2vpn evpn
-      send-community
-      send-community extended
-      route-reflector-client
-  neighbor 1.1.1.5
-    inherit peer LEAF
-  neighbor 1.1.1.6
-    inherit peer LEAF
-  neighbor 1.1.1.7
-    inherit peer LEAF
 !
 line console
   exec-timeout 0
 line vty
   exec-timeout 0
+!
+router ospf 1
+  router-id 1.1.1.5
+  passive-interface default
+!
+router bgp 65000
+  template peer SPINE
+    remote-as 65000
+    update-source loopback0
+    address-family l2vpn evpn
+      send-community
+      send-community extended
+  neighbor 1.1.1.2
+    inherit peer SPINE
+  neighbor 1.1.1.3
+    inherit peer SPINE
 !
 end
 copy run star
