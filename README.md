@@ -9,6 +9,6 @@ The course consists of the following tasks:
 4. **Underlay. BGP**
 5. **Multicast. PIM**
 6. **VxLAN. type 2**
-7. **VxLAN. type 5**
+7. **VxLAN. Route**
 8. **VxLAN. Multipod**
 9. **Project work**
