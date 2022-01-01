@@ -593,8 +593,8 @@ end
 wr
 </code></pre>
 </details>
-**Настройка Switch:**
 
+**Настройка Switch:**
 
 <details>
   <summary>SW9</summary>
@@ -687,6 +687,7 @@ end
 wr
 </code></pre>
 </details>
+
 **Настройка клиентов:**
 
 <details>
