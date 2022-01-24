@@ -28,7 +28,7 @@ TRM not supported on this platform
 
 А также в образах отсутствует поддержка bfd(команды есть, но самих пакетов нет) 
 
-**Приступим к настройке NEXUS:**
+**Приступим к настройке :**
 
 <details>
   <summary>NXOS1</summary>
@@ -709,7 +709,82 @@ end
 wr
 </code></pre>
 </details>
-
+<details>
+  <summary>R11</summary>
+<pre><code>
+enable
+configure terminal
+!
+hostname R11
+!
+no ip domain lookup
+ip multicast-routing
+!
+interface Loopback0
+ ip address 1.1.1.11 255.255.255.255
+ ip pim sparse-mode
+!
+interface Ethernet0/0
+ ip address 10.15.0.7 255.255.255.254
+ ip pim sparse-mode
+!
+interface Ethernet0/1
+ ip address 10.15.1.7 255.255.255.254
+ ip pim sparse-mode
+!
+interface Ethernet0/2
+ ip address 10.16.0.1 255.255.255.254
+ ip pim sparse-mode
+!
+router bgp 64777
+ template peer-session NXOS2
+  remote-as 64552
+  password 7 070C285F4D06
+ exit-peer-session
+ !
+ template peer-session NXOS3
+  remote-as 64552
+  password 7 1511021F0725
+ exit-peer-session
+ !
+ template peer-session NXOS4
+  remote-as 64554
+  password 7 1511021F0725
+ exit-peer-session
+ !
+ bgp log-neighbor-changes
+ no bgp default ipv4-unicast
+ neighbor 10.15.0.6 inherit peer-session NXOS2
+ neighbor 10.15.1.6 inherit peer-session NXOS3
+ neighbor 10.16.0.0 inherit peer-session NXOS4
+ !
+ address-family ipv4
+  redistribute connected route-map BGP-OUT
+  neighbor 10.15.0.6 activate
+  neighbor 10.15.1.6 activate
+  neighbor 10.16.0.0 activate
+  maximum-paths 4
+ exit-address-family
+!
+ip pim bsr-candidate Loopback0 32 100
+ip pim rp-candidate Loopback0 priority 100
+!
+ip prefix-list LOOPBACK seq 5 permit 1.1.1.11/32
+!
+ip prefix-list P2P seq 5 permit 10.15.0.6/31
+ip prefix-list P2P seq 10 permit 10.15.1.6/31
+ip prefix-list P2P seq 15 permit 10.16.0.0/31
+!
+route-map BGP-OUT permit 10
+ match ip address prefix-list LOOPBACK P2P
+!
+line con 0
+ exec-timeout 0 0
+!
+end
+wr
+</code></pre>
+</details>
 **Настройка Switch:**
 
 <details>
@@ -816,6 +891,7 @@ nve1      10.1.1.1         Up    DP        02:56:01 n/a
 nve1      10.1.1.5         Up    DP        03:32:54 n/a       
 </code></pre>
 </details>
+
 Чтобы не загромождать проект лишними выводами, вставлю далее картинку с указанием построенного пути:
 
 ![Scheme2](./img/Scheme2.png)
@@ -824,5 +900,11 @@ Multicast на данный момент считается уже устаре�
 
 ## Предоставить план перехода на EVPN.
 
-
+- Номера автономных систем останется прежним.
+- Номера vni тоже.
+- На всех устройствах будет отключаться фича отвечающая за pim.
+- Будут убираться все соединения ipv4 unicast и заменяться на l2 evpn.
+- Также будет решаться задача по увеличению TTL UPDATE сообщений.
+- В интерфейсах nve1 будет явно указываться распространение меток vni через BGP.
+- Для более плавного перехода, потребуется заранее подготовить конфигурацию.
 
