@@ -22,9 +22,9 @@
 
 Для данной схемы получилось настроить только L2 связь, так как при настройке L3 получил сообщение:
 
-```
+
 TRM not supported on this platform
-```
+
 
 А также в образах отсутствует поддержка bfd(команды есть, но самих пакетов нет) 
 
@@ -908,3 +908,770 @@ Multicast на данный момент считается уже устаре�
 - В интерфейсах nve1 будет явно указываться распространение меток vni через BGP.
 - Для более плавного перехода, потребуется заранее подготовить конфигурацию.
 
+## Настройка схемы сети для VxLAN Multipod.
+
+
+<details>
+  <summary>NXOS1</summary>
+<pre><code>
+configure terminal
+!
+hostname NX1
+!
+nv overlay evpn
+feature ospf
+feature bgp
+feature interface-vlan
+feature vn-segment-vlan-based
+feature nv overlay
+!
+no ip domain-lookup
+!
+fabric forwarding anycast-gateway-mac 0001.0001.0001
+vlan 1,11
+!
+vlan 11
+  vn-segment 100200
+!
+interface nve1
+  no shutdown
+  host-reachability protocol bgp
+  source-interface loopback0
+  member vni 100200
+    ingress-replication protocol bgp
+!
+interface vlan 11
+  no shutdown
+  ip address 172.16.2.254/24
+  fabric forwarding mode anycast-gateway
+!
+interface Ethernet1/1
+  no switchport
+  medium p2p
+  ip unnumbered loopback0
+  ip ospf authentication-key 3 e7cddfe7d0564e2c
+  ip ospf network point-to-point
+  no ip ospf passive-interface
+  ip router ospf 1 area 0.0.0.1
+  no shutdown
+!
+interface Ethernet1/2
+  switchport mode trunk
+  spanning-tree bpdufilter enable
+!
+interface loopback0
+  ip address 1.1.1.1/24
+  ip router ospf 1 area 0.0.0.1
+!
+cli alias name wr copy running-config startup-config
+line console
+  exec-timeout 0
+line vty
+  exec-timeout 0
+!
+router ospf 1
+  router-id 1.1.1.1
+  passive-interface default
+!
+router bgp 64551
+  template peer SPINE
+    update-source loopback0
+    ebgp-multihop 5
+    address-family l2vpn evpn
+      send-community
+      send-community extended
+  neighbor 1.1.1.4
+    inherit peer SPINE
+    remote-as 64554
+!
+end
+wr
+</code></pre>
+</details>
+ <details>
+<summary>NXOS2</summary>
+<pre><code>
+configure terminal
+hostname NX2
+!
+nv overlay evpn
+feature ospf
+feature bgp
+feature nv overlay
+!
+route-map NH_UNCHANGED permit 10
+  set ip next-hop unchanged
+!
+interface Ethernet1/1
+  no switchport
+  medium p2p
+  ip unnumbered loopback0
+  ip ospf authentication-key 3 e7cddfe7d0564e2c
+  ip ospf network point-to-point
+  no ip ospf passive-interface
+  ip router ospf 1 area 0.0.0.0
+  no shutdown
+!
+interface Ethernet1/2
+  no switchport
+  medium p2p
+  ip unnumbered loopback0
+  ip ospf authentication-key 3 e7cddfe7d0564e2c
+  ip ospf network point-to-point
+  no ip ospf passive-interface
+  ip router ospf 1 area 0.0.0.0
+  no shutdown
+!
+interface Ethernet1/3
+  no switchport
+  medium p2p
+  ip unnumbered loopback0
+  ip ospf authentication-key 3 e7cddfe7d0564e2c
+  ip ospf network point-to-point
+  no ip ospf passive-interface
+  ip router ospf 1 area 0.0.0.0
+  no shutdown
+!
+interface Ethernet1/4
+  no switchport
+  ip address 172.25.20.1/24
+  ip ospf authentication-key 3 e7cddfe7d0564e2c
+  ip ospf network broadcast
+  no ip ospf passive-interface
+  ip router ospf 1 area 0.0.0.1
+  no shutdown
+!
+interface loopback0
+  ip address 1.1.1.2/24
+  ip router ospf 1 area 0.0.0.0
+!
+cli alias name wr copy running-config startup-config
+line console
+  exec-timeout 0
+line vty
+  exec-timeout 0
+!
+router ospf 1
+  router-id 1.1.1.2
+  passive-interface default
+!
+router bgp 64552
+  address-family l2vpn evpn
+    retain route-target all
+  template peer UNIVERSAL
+    update-source loopback0
+    address-family l2vpn evpn
+      send-community
+      send-community extended
+      route-map NH_UNCHANGED out
+  neighbor 1.1.1.4
+    inherit peer UNIVERSAL
+    remote-as 64554
+  neighbor 1.1.1.5
+    inherit peer UNIVERSAL
+    remote-as 64555
+  neighbor 1.1.1.6
+    inherit peer UNIVERSAL
+    remote-as 64556
+  neighbor 1.1.1.7
+    inherit peer UNIVERSAL
+    remote-as 64555
+!
+end
+wr
+</code></pre>
+</details>
+<details>
+  <summary>NXOS3</summary>
+<pre><code>
+configure terminal
+hostname NX3
+!
+nv overlay evpn
+feature ospf
+feature bgp
+feature nv overlay
+!
+route-map NH_UNCHANGED permit 10
+  set ip next-hop unchanged
+!
+interface Ethernet1/1
+  no switchport
+  medium p2p
+  ip unnumbered loopback0
+  ip ospf authentication-key 3 e7cddfe7d0564e2c
+  ip ospf network point-to-point
+  no ip ospf passive-interface
+  ip router ospf 1 area 0.0.0.0
+  no shutdown
+!
+interface Ethernet1/2
+  no switchport
+  medium p2p
+  ip unnumbered loopback0
+  ip ospf authentication-key 3 e7cddfe7d0564e2c
+  ip ospf network point-to-point
+  no ip ospf passive-interface
+  ip router ospf 1 area 0.0.0.0
+  no shutdown
+!
+interface Ethernet1/3
+  no switchport
+  medium p2p
+  ip unnumbered loopback0
+  ip ospf authentication-key 3 e7cddfe7d0564e2c
+  ip ospf network point-to-point
+  no ip ospf passive-interface
+  ip router ospf 1 area 0.0.0.0
+  no shutdown
+!
+interface Ethernet1/4
+  no switchport
+  ip address 172.25.20.2/24
+  ip ospf authentication-key 3 e7cddfe7d0564e2c
+  ip ospf network broadcast
+  no ip ospf passive-interface
+  ip router ospf 1 area 0.0.0.1
+  no shutdown
+!
+interface loopback0
+  ip address 1.1.1.3/24
+  ip router ospf 1 area 0.0.0.0
+!
+cli alias name wr copy running-config startup-config
+line console
+  exec-timeout 0
+line vty
+  exec-timeout 0
+!
+router ospf 1
+  router-id 1.1.1.3
+  passive-interface default
+!
+router bgp 64552
+  address-family l2vpn evpn
+    retain route-target all
+  template peer UNIVERSAL
+    update-source loopback0
+    address-family l2vpn evpn
+      send-community
+      send-community extended
+      route-map NH_UNCHANGED out
+  neighbor 1.1.1.4
+    inherit peer UNIVERSAL
+    remote-as 64554
+  neighbor 1.1.1.5
+    inherit peer UNIVERSAL
+    remote-as 64555
+  neighbor 1.1.1.6
+    inherit peer UNIVERSAL
+    remote-as 64556
+  neighbor 1.1.1.7
+    inherit peer UNIVERSAL
+    remote-as 64555
+!
+end
+wr
+</code></pre>
+</details>
+<details>
+<summary>NXOS4</summary>
+<pre><code>
+configure terminal
+!
+hostname NX4
+!
+nv overlay evpn
+feature ospf
+feature bgp
+feature nv overlay
+!
+route-map NH_UNCHANGED permit 10
+  set ip next-hop unchanged
+!
+interface Ethernet1/1
+  no switchport
+  medium p2p
+  ip unnumbered loopback0
+  ip ospf authentication-key 3 e7cddfe7d0564e2c
+  ip ospf network point-to-point
+  no ip ospf passive-interface
+  ip router ospf 1 area 0.0.0.1
+  no shutdown
+!
+interface Ethernet1/2
+  no switchport
+  ip address 172.25.20.3/24
+  ip ospf authentication-key 3 e7cddfe7d0564e2c
+  ip ospf network broadcast
+  no ip ospf passive-interface
+  ip router ospf 1 area 0.0.0.1
+  no shutdown
+!
+interface loopback0
+  ip address 1.1.1.4/24
+  ip router ospf 1 area 0.0.0.1
+!
+cli alias name wr copy running-config startup-config
+line console
+  exec-timeout 0
+line vty
+  exec-timeout 0
+!
+router ospf 1
+  router-id 1.1.1.4
+  passive-interface default
+!
+router bgp 64554
+  address-family l2vpn evpn
+    retain route-target all
+  template peer UNIVERSAL
+    update-source loopback0
+    address-family l2vpn evpn
+      send-community
+      send-community extended
+      route-map NH_UNCHANGED out
+  neighbor 1.1.1.1
+    inherit peer UNIVERSAL
+    remote-as 64551
+  neighbor 1.1.1.2
+    inherit peer UNIVERSAL
+    remote-as 64552
+  neighbor 1.1.1.3
+    inherit peer UNIVERSAL
+    remote-as 64552
+!
+end
+wr
+</code></pre>
+</details>
+<details>
+<summary>NXOS5</summary>
+<pre><code>
+configure terminal
+hostname NX5
+!
+nv overlay evpn
+feature ospf
+feature bgp
+feature interface-vlan
+feature vn-segment-vlan-based
+feature lacp
+feature vpc
+feature nv overlay
+!
+fabric forwarding anycast-gateway-mac 0001.0001.0001
+vlan 1,10
+vlan 10
+  vn-segment 10010
+!
+vrf context VPC
+!
+vpc domain 1
+  peer-keepalive destination 10.15.2.0 source 10.15.2.1 vrf VPC
+!
+interface Vlan10
+  no shutdown
+  ip address 10.10.10.254/24
+  fabric forwarding mode anycast-gateway
+!
+interface port-channel1
+  switchport mode trunk
+  spanning-tree port type network
+  vpc peer-link
+!
+interface port-channel2
+  switchport mode trunk
+  vpc 1
+!
+interface nve1
+  no shutdown
+  host-reachability protocol bgp
+  source-interface loopback0
+  member vni 10010
+    ingress-replication protocol bgp
+!
+interface Ethernet1/1
+  no switchport
+  medium p2p
+  ip unnumbered loopback0
+  ip ospf authentication-key 3 e7cddfe7d0564e2c
+  ip ospf network point-to-point
+  no ip ospf passive-interface
+  ip router ospf 1 area 0.0.0.0
+  no shutdown
+!
+interface Ethernet1/2
+  no switchport
+  medium p2p
+  ip unnumbered loopback0
+  ip ospf authentication-key 3 e7cddfe7d0564e2c
+  ip ospf network point-to-point
+  no ip ospf passive-interface
+  ip router ospf 1 area 0.0.0.0
+  no shutdown
+!
+interface Ethernet1/3
+  no switchport
+  vrf member VPC
+  ip address 10.15.2.1/31
+  no shutdown
+!
+interface Ethernet1/4
+  switchport mode trunk
+  channel-group 1 mode active
+!
+interface Ethernet1/5
+  switchport mode trunk
+  channel-group 1 mode active
+!
+interface Ethernet1/6
+  switchport mode trunk
+  spanning-tree bpdufilter enable
+  channel-group 2 mode active
+!
+interface loopback0
+  ip address 1.1.1.5/24
+  ip address 10.255.255.255/32 secondary
+  ip router ospf 1 area 0.0.0.0
+!
+cli alias name wr copy running-config startup-config
+line console
+  exec-timeout 0
+line vty
+  exec-timeout 0
+!
+router ospf 1
+  router-id 1.1.1.5
+  passive-interface default
+!
+router bgp 64555
+  address-family l2vpn evpn
+  template peer SPINE
+    remote-as 64552
+    update-source loopback0
+    ebgp-multihop 5
+    address-family l2vpn evpn
+      send-community
+      send-community extended
+  neighbor 1.1.1.2
+    inherit peer SPINE
+  neighbor 1.1.1.3
+    inherit peer SPINE
+!
+end
+wr
+</code></pre>
+</details>
+<details>
+<summary>NXOS6</summary>
+<pre><code>
+configure terminal
+hostname NX6
+!
+nv overlay evpn
+feature ospf
+feature bgp
+feature interface-vlan
+feature vn-segment-vlan-based
+feature nv overlay
+!
+fabric forwarding anycast-gateway-mac 0001.0001.0001
+vlan 1,10-11
+vlan 10
+  vn-segment 10010
+vlan 11
+  vn-segment 10011
+!
+interface Vlan10
+  no shutdown
+  ip address 10.10.10.253/24
+  fabric forwarding mode anycast-gateway
+!
+interface Vlan11
+  no shutdown
+  ip address 10.10.11.253/24
+  fabric forwarding mode anycast-gateway
+!
+interface nve1
+  no shutdown
+  host-reachability protocol bgp
+  source-interface loopback0
+  member vni 10010
+    ingress-replication protocol bgp
+  member vni 10011
+!
+interface Ethernet1/1
+  no switchport
+  medium p2p
+  ip unnumbered loopback0
+  ip ospf authentication-key 3 e7cddfe7d0564e2c
+  ip ospf network point-to-point
+  no ip ospf passive-interface
+  ip router ospf 1 area 0.0.0.0
+  no shutdown
+!
+interface Ethernet1/2
+  no switchport
+  medium p2p
+  ip unnumbered loopback0
+  ip ospf authentication-key 3 e7cddfe7d0564e2c
+  ip ospf network point-to-point
+  no ip ospf passive-interface
+  ip router ospf 1 area 0.0.0.0
+  no shutdown
+!
+interface Ethernet1/3
+  switchport mode trunk
+  spanning-tree bpdufilter enable
+!
+interface loopback0
+  ip address 1.1.1.6/24
+  ip router ospf 1 area 0.0.0.0
+!
+cli alias name wr copy running-config startup-config
+line console
+  exec-timeout 0
+line vty
+  exec-timeout 0
+!
+router ospf 1
+  router-id 1.1.1.6
+  passive-interface default
+!
+router bgp 64556
+  template peer SPINE
+    remote-as 64552
+    update-source loopback0
+    ebgp-multihop 5
+    address-family l2vpn evpn
+      send-community
+      send-community extended
+  neighbor 1.1.1.2
+    inherit peer SPINE
+  neighbor 1.1.1.3
+    inherit peer SPINE
+!
+end
+wr
+</code></pre>
+</details>
+<details>
+<summary>NXOS7</summary>
+<pre><code>
+configure terminal
+hostname NX7
+!
+nv overlay evpn
+feature ospf
+feature bgp
+feature interface-vlan
+feature vn-segment-vlan-based
+feature lacp
+feature vpc
+feature nv overlay
+!
+fabric forwarding anycast-gateway-mac 0001.0001.0001
+vlan 1,10
+vlan 10
+  vn-segment 10010
+!
+vpc domain 1
+  peer-keepalive destination 10.15.2.1 source 10.15.2.0 vrf VPC
+!
+interface Vlan10
+  no shutdown
+  ip address 10.10.10.254/24
+  fabric forwarding mode anycast-gateway
+!
+interface port-channel1
+  switchport mode trunk
+  spanning-tree port type network
+  vpc peer-link
+!
+interface port-channel2
+  switchport mode trunk
+  vpc 1
+!
+interface nve1
+  no shutdown
+  host-reachability protocol bgp
+  source-interface loopback0
+  member vni 10010
+    ingress-replication protocol bgp
+!
+interface Ethernet1/1
+  no switchport
+  medium p2p
+  ip unnumbered loopback0
+  ip ospf authentication-key 3 e7cddfe7d0564e2c
+  ip ospf network point-to-point
+  no ip ospf passive-interface
+  ip router ospf 1 area 0.0.0.0
+  no shutdown
+!
+interface Ethernet1/2
+  no switchport
+  medium p2p
+  ip unnumbered loopback0
+  ip ospf authentication-key 3 e7cddfe7d0564e2c
+  ip ospf network point-to-point
+  no ip ospf passive-interface
+  ip router ospf 1 area 0.0.0.0
+  no shutdown
+!
+interface Ethernet1/3
+  no switchport
+  vrf member VPC
+  ip address 10.15.2.0/31
+  no shutdown
+!
+interface Ethernet1/4
+  switchport mode trunk
+  channel-group 1 mode active
+!
+interface Ethernet1/5
+  switchport mode trunk
+  channel-group 1 mode active
+!
+interface Ethernet1/6
+  switchport mode trunk
+  spanning-tree bpdufilter enable
+  channel-group 2 mode active
+!
+interface loopback0
+  ip address 1.1.1.7/24
+  ip address 10.255.255.255/32 secondary
+  ip router ospf 1 area 0.0.0.0
+!
+cli alias name wr copy running-config startup-config
+line console
+  exec-timeout 0
+line vty
+  exec-timeout 0
+!
+router ospf 1
+  router-id 1.1.1.7
+  passive-interface default
+!
+router bgp 64555
+  template peer SPINE
+    remote-as 64552
+    update-source loopback0
+    ebgp-multihop 5
+    address-family l2vpn evpn
+      send-community
+      send-community extended
+  neighbor 1.1.1.2
+    inherit peer SPINE
+  neighbor 1.1.1.3
+    inherit peer SPINE
+!
+end
+wr
+</code></pre>
+</details>
+**Настройка Switch:**
+
+<details>
+  <summary>SW9</summary>
+<pre><code>
+enable
+configure terminal
+!
+hostname SW9
+!
+vlan 10,11
+!
+interface Ethernet0/0
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ spanning-tree bpdufilter enable
+!
+interface Ethernet0/1
+ switchport access vlan 10
+ spanning-tree bpdufilter enable
+!
+interface Ethernet0/2
+ switchport access vlan 11
+ spanning-tree bpdufilter enable
+!
+interface Ethernet0/3
+ switchport access vlan 69
+ spanning-tree bpdufilter enable
+!
+interface Vlan10
+ ip address 10.10.10.250 255.255.255.0
+!
+interface Vlan11
+ ip address 10.10.11.250 255.255.255.0
+!
+end
+wr
+</code></pre>
+</details>
+<details>
+  <summary>SW10</summary>
+<pre><code>
+enable
+configure terminal
+!
+hostname SW10
+!
+interface Port-channel1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ spanning-tree bpdufilter enable
+!
+interface Ethernet0/0
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ channel-group 1 mode active
+ spanning-tree bpdufilter enable
+!
+interface Ethernet0/1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ channel-group 1 mode active
+ spanning-tree bpdufilter enable
+!
+interface Ethernet0/2
+ switchport access vlan 10
+!         
+interface Ethernet0/3
+ switchport access vlan 11
+!
+interface Vlan10
+ ip address 10.10.10.245 255.255.255.0
+!
+interface Vlan11
+ ip address 10.10.11.245 255.255.255.0
+!
+end
+wr
+</code></pre>
+</details>
+<details>
+<summary>SW11</summary>
+<pre><code>
+enable
+configure terminal
+!
+hostname SW11
+!
+interface Ethernet0/0
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ spanning-tree bpdufilter enable
+!
+interface Ethernet0/3
+ switchport access vlan 11
+ spanning-tree bpdufilter enable
+!
+interface Vlan11
+ ip address 10.10.11.250 255.255.255.0
+!
+end
+wr
+</code></pre>
+</details>
