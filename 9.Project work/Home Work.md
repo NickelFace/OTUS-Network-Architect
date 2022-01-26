@@ -912,6 +912,8 @@ Multicast на данный момент считается уже устаре�
 
 ## Настройка схемы сети для VxLAN Multipod.
 
+![Scheme](./img/Scheme3.png)
+
 <details>
   <summary>NXOS1</summary>
 <pre><code>
