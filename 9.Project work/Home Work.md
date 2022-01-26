@@ -1619,7 +1619,6 @@ end
 wr
 </code></pre>
 </details>
-
 **Настройка Switch:**
 
 <details>
