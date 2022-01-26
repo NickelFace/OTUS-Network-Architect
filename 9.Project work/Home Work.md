@@ -904,18 +904,18 @@ Multicast на данный момент считается уже устаре�
 - Номера vni тоже.
 - На всех устройствах будет отключаться фича отвечающая за pim.
 - Будут убираться все соединения ipv4 unicast и заменяться на l2 evpn.
+- Будет строиться сеть Underlay
 - Также будет решаться задача по увеличению TTL UPDATE сообщений.
 - В интерфейсах nve1 будет явно указываться распространение меток vni через BGP.
+- Для построения пиринга, будем явноуказывать указывать route-target в evpn.
 - Для более плавного перехода, потребуется заранее подготовить конфигурацию.
 
 ## Настройка схемы сети для VxLAN Multipod.
-
 
 <details>
   <summary>NXOS1</summary>
 <pre><code>
 configure terminal
-!
 hostname NX1
 !
 nv overlay evpn
@@ -925,13 +925,15 @@ feature interface-vlan
 feature vn-segment-vlan-based
 feature nv overlay
 !
-no ip domain-lookup
-!
-fabric forwarding anycast-gateway-mac 0001.0001.0001
-vlan 1,11
-!
+vlan 1,11,98
 vlan 11
   vn-segment 100200
+vlan 98
+  vn-segment 9898
+!
+interface Vlan11
+  no shutdown
+  ip address 172.16.2.254/24
 !
 interface nve1
   no shutdown
@@ -940,16 +942,9 @@ interface nve1
   member vni 100200
     ingress-replication protocol bgp
 !
-interface vlan 11
-  no shutdown
-  ip address 172.16.2.254/24
-  fabric forwarding mode anycast-gateway
-!
 interface Ethernet1/1
   no switchport
-  medium p2p
-  ip unnumbered loopback0
-  ip ospf authentication-key 3 e7cddfe7d0564e2c
+  ip address 10.16.0.3/31
   ip ospf network point-to-point
   no ip ospf passive-interface
   ip router ospf 1 area 0.0.0.1
@@ -961,6 +956,7 @@ interface Ethernet1/2
 !
 interface loopback0
   ip address 1.1.1.1/24
+  ip address 10.255.255.253/32 secondary
   ip router ospf 1 area 0.0.0.1
 !
 cli alias name wr copy running-config startup-config
@@ -983,6 +979,12 @@ router bgp 64551
   neighbor 1.1.1.4
     inherit peer SPINE
     remote-as 64554
+evpn
+  vni 100200 l2
+    route-target import auto
+    route-target import 9898:100200
+    route-target export auto
+    route-target export 9898:100200
 !
 end
 wr
@@ -1001,11 +1003,11 @@ feature nv overlay
 !
 route-map NH_UNCHANGED permit 10
   set ip next-hop unchanged
+vrf context management
 !
 interface Ethernet1/1
   no switchport
-  medium p2p
-  ip unnumbered loopback0
+  ip address 10.15.0.0/31
   ip ospf authentication-key 3 e7cddfe7d0564e2c
   ip ospf network point-to-point
   no ip ospf passive-interface
@@ -1014,8 +1016,7 @@ interface Ethernet1/1
 !
 interface Ethernet1/2
   no switchport
-  medium p2p
-  ip unnumbered loopback0
+  ip address 10.15.0.2/31
   ip ospf authentication-key 3 e7cddfe7d0564e2c
   ip ospf network point-to-point
   no ip ospf passive-interface
@@ -1024,8 +1025,7 @@ interface Ethernet1/2
 !
 interface Ethernet1/3
   no switchport
-  medium p2p
-  ip unnumbered loopback0
+  ip address 10.15.0.4/31
   ip ospf authentication-key 3 e7cddfe7d0564e2c
   ip ospf network point-to-point
   no ip ospf passive-interface
@@ -1097,8 +1097,7 @@ route-map NH_UNCHANGED permit 10
 !
 interface Ethernet1/1
   no switchport
-  medium p2p
-  ip unnumbered loopback0
+  ip address 10.15.1.0/31
   ip ospf authentication-key 3 e7cddfe7d0564e2c
   ip ospf network point-to-point
   no ip ospf passive-interface
@@ -1107,8 +1106,7 @@ interface Ethernet1/1
 !
 interface Ethernet1/2
   no switchport
-  medium p2p
-  ip unnumbered loopback0
+  ip address 10.15.1.2/31
   ip ospf authentication-key 3 e7cddfe7d0564e2c
   ip ospf network point-to-point
   no ip ospf passive-interface
@@ -1117,8 +1115,7 @@ interface Ethernet1/2
 !
 interface Ethernet1/3
   no switchport
-  medium p2p
-  ip unnumbered loopback0
+  ip address 10.15.1.4/31
   ip ospf authentication-key 3 e7cddfe7d0564e2c
   ip ospf network point-to-point
   no ip ospf passive-interface
@@ -1178,7 +1175,6 @@ wr
 <summary>NXOS4</summary>
 <pre><code>
 configure terminal
-!
 hostname NX4
 !
 nv overlay evpn
@@ -1191,9 +1187,7 @@ route-map NH_UNCHANGED permit 10
 !
 interface Ethernet1/1
   no switchport
-  medium p2p
-  ip unnumbered loopback0
-  ip ospf authentication-key 3 e7cddfe7d0564e2c
+  ip address 10.16.0.2/31
   ip ospf network point-to-point
   no ip ospf passive-interface
   ip router ospf 1 area 0.0.0.1
@@ -1217,11 +1211,10 @@ line console
   exec-timeout 0
 line vty
   exec-timeout 0
-!
+no feature signature-verification
 router ospf 1
   router-id 1.1.1.4
   passive-interface default
-!
 router bgp 64554
   address-family l2vpn evpn
     retain route-target all
@@ -1251,6 +1244,7 @@ wr
 configure terminal
 hostname NX5
 !
+cfs eth distribute
 nv overlay evpn
 feature ospf
 feature bgp
@@ -1261,18 +1255,25 @@ feature vpc
 feature nv overlay
 !
 fabric forwarding anycast-gateway-mac 0001.0001.0001
-vlan 1,10
+system vlan nve-overlay id 1
+vlan 1,10,88
 vlan 10
   vn-segment 10010
+vlan 88
+  vn-segment 9999
 !
 vrf context VPC
-!
 vpc domain 1
   peer-keepalive destination 10.15.2.0 source 10.15.2.1 vrf VPC
 !
 interface Vlan10
   no shutdown
-  ip address 10.10.10.254/24
+  ip address 10.10.10.253/24
+  fabric forwarding mode anycast-gateway
+!
+interface Vlan11
+  no shutdown
+  ip address 10.10.11.253/24
   fabric forwarding mode anycast-gateway
 !
 interface port-channel1
@@ -1293,8 +1294,7 @@ interface nve1
 !
 interface Ethernet1/1
   no switchport
-  medium p2p
-  ip unnumbered loopback0
+  ip address 10.15.0.5/31
   ip ospf authentication-key 3 e7cddfe7d0564e2c
   ip ospf network point-to-point
   no ip ospf passive-interface
@@ -1303,8 +1303,7 @@ interface Ethernet1/1
 !
 interface Ethernet1/2
   no switchport
-  medium p2p
-  ip unnumbered loopback0
+  ip address 10.15.1.5/31
   ip ospf authentication-key 3 e7cddfe7d0564e2c
   ip ospf network point-to-point
   no ip ospf passive-interface
@@ -1346,7 +1345,6 @@ router ospf 1
   passive-interface default
 !
 router bgp 64555
-  address-family l2vpn evpn
   template peer SPINE
     remote-as 64552
     update-source loopback0
@@ -1358,6 +1356,12 @@ router bgp 64555
     inherit peer SPINE
   neighbor 1.1.1.3
     inherit peer SPINE
+evpn
+  vni 10010 l2
+    route-target import auto
+    route-target import 9999:10010
+    route-target export auto
+    route-target export 9999:10010
 !
 end
 wr
@@ -1377,20 +1381,24 @@ feature vn-segment-vlan-based
 feature nv overlay
 !
 fabric forwarding anycast-gateway-mac 0001.0001.0001
-vlan 1,10-11
+vlan 1,10-11,98-99
 vlan 10
   vn-segment 10010
 vlan 11
-  vn-segment 10011
+  vn-segment 100200
+vlan 98
+  vn-segment 9898
+vlan 99
+  vn-segment 9999
 !
 interface Vlan10
   no shutdown
-  ip address 10.10.10.253/24
+  ip address 10.10.10.251/24
   fabric forwarding mode anycast-gateway
 !
 interface Vlan11
   no shutdown
-  ip address 10.10.11.253/24
+  ip address 10.10.11.251/24
   fabric forwarding mode anycast-gateway
 !
 interface nve1
@@ -1399,12 +1407,12 @@ interface nve1
   source-interface loopback0
   member vni 10010
     ingress-replication protocol bgp
-  member vni 10011
+  member vni 100200
+    ingress-replication protocol bgp
 !
 interface Ethernet1/1
   no switchport
-  medium p2p
-  ip unnumbered loopback0
+  ip address 10.15.0.1/31
   ip ospf authentication-key 3 e7cddfe7d0564e2c
   ip ospf network point-to-point
   no ip ospf passive-interface
@@ -1413,8 +1421,7 @@ interface Ethernet1/1
 !
 interface Ethernet1/2
   no switchport
-  medium p2p
-  ip unnumbered loopback0
+  ip address 10.15.1.1/31
   ip ospf authentication-key 3 e7cddfe7d0564e2c
   ip ospf network point-to-point
   no ip ospf passive-interface
@@ -1427,6 +1434,7 @@ interface Ethernet1/3
 !
 interface loopback0
   ip address 1.1.1.6/24
+  ip address 10.255.255.254/32 secondary
   ip router ospf 1 area 0.0.0.0
 !
 cli alias name wr copy running-config startup-config
@@ -1451,6 +1459,17 @@ router bgp 64556
     inherit peer SPINE
   neighbor 1.1.1.3
     inherit peer SPINE
+evpn
+  vni 10010 l2
+    route-target import auto
+    route-target import 9999:10010
+    route-target export auto
+    route-target export 9999:10010
+  vni 100200 l2
+    route-target import auto
+    route-target import 9898:100200
+    route-target export auto
+    route-target export 9898:100200
 !
 end
 wr
@@ -1462,6 +1481,7 @@ wr
 configure terminal
 hostname NX7
 !
+cfs eth distribute
 nv overlay evpn
 feature ospf
 feature bgp
@@ -1472,17 +1492,39 @@ feature vpc
 feature nv overlay
 !
 fabric forwarding anycast-gateway-mac 0001.0001.0001
-vlan 1,10
+vlan 1,10,68,88
 vlan 10
   vn-segment 10010
+vlan 68
+  vn-segment 10068
+vlan 88
+  vn-segment 9999
 !
+vrf context VPC
+vrf context management
 vpc domain 1
   peer-keepalive destination 10.15.2.1 source 10.15.2.0 vrf VPC
 !
 interface Vlan10
   no shutdown
-  ip address 10.10.10.254/24
+  ip address 10.10.10.253/24
   fabric forwarding mode anycast-gateway
+!
+interface Vlan11
+  no shutdown
+  ip address 10.10.11.253/24
+  fabric forwarding mode anycast-gateway
+!
+interface Vlan68
+  no shutdown
+  vrf member VXLAN_RT
+  ip address 192.168.68.253/24
+  fabric forwarding mode anycast-gateway
+!
+interface Vlan88
+  no shutdown
+  vrf member VXLAN_RT
+  ip forward
 !
 interface port-channel1
   switchport mode trunk
@@ -1502,8 +1544,7 @@ interface nve1
 !
 interface Ethernet1/1
   no switchport
-  medium p2p
-  ip unnumbered loopback0
+  ip address 10.15.0.3/31
   ip ospf authentication-key 3 e7cddfe7d0564e2c
   ip ospf network point-to-point
   no ip ospf passive-interface
@@ -1512,8 +1553,7 @@ interface Ethernet1/1
 !
 interface Ethernet1/2
   no switchport
-  medium p2p
-  ip unnumbered loopback0
+  ip address 10.15.1.3/31
   ip ospf authentication-key 3 e7cddfe7d0564e2c
   ip ospf network point-to-point
   no ip ospf passive-interface
@@ -1566,11 +1606,18 @@ router bgp 64555
     inherit peer SPINE
   neighbor 1.1.1.3
     inherit peer SPINE
+evpn
+  vni 10010 l2
+    route-target import auto
+    route-target import 9999:10010
+    route-target export auto
+    route-target export 9999:10010
 !
 end
 wr
 </code></pre>
 </details>
+
 **Настройка Switch:**
 
 <details>
