@@ -1,28 +1,28 @@
 # Multicast. PIM
 
-Цель:
+Goal:
 
-Настроить PIM в сети.
+Configure PIM on the network.
 
-В этой работе мы ожидаем, что вы самостоятельно:
+In this work, we expect you to be on your own:
 
-1. Настроите PIM на всех устройствах (кроме коммутаторов доступа);
+1. Configure PIM on all devices (except access switches);
 
-  *Для IP связанности между устройствами можно использовать любой протокол динамической маршрутизации; 2. План работы, адресное пространство, схема сети, настройки - зафиксируете в документации;
+  *For IP connectivity between devices, you can use any dynamic routing protocol; 2. Work plan, address space, network diagram, settings - you will fix in the documentation;
 
-Дополнительно предлагается реализовать Multicast совместно с VxLAN(к этой части самостоятельной работы возможно вернуться позже)
+Additionally, it is proposed to implement Multicast together with VxLAN (it is possible to return to this part of independent work later)
 
 
 
-За основу взял схему из раздела [OSPF](https://github.com/NickelFace/OTUS-Network-Architect/blob/main/2.Overlay_OSPF/Home_Work.md), где указал логику построения сети ЦОД, а  теперь требуется организовать  мультикаст в данной топологии.
+I took the scheme from the [OSPF](https://github.com/NickelFace/OTUS-Network-Architect/blob/main/2.Overlay_OSPF/Home_Work.md) section as a basis, where I indicated the logic of building a data center network, and now I need to organize a multicast in this topology.
 
-Так как в интернете довольно мало информации на данную тематику,а [некоторые статьи](https://linkmeup.ru/blog/1204/)  не подойдут(на сервере нет видеокарты, только консоль) для EVE-NG, то придется организовать свою статью. Первая проблема с которой столкнулся, это как организовать источник мультикаста, а заодно и клиента. За решение данного вопроса я воспользовался [инструкцией](https://www.eve-ng.net/index.php/documentation/howtos/howto-save-your-settings-to-be-as-default-on-qemu-node/) по созданию своего [образа](https://disk.yandex.ru/d/_UKl3leYfNVqGA). Для организации сервера мне потребовался пакет [tstools](https://onstartup.ru/utility/tstools/), а для организации клиента [smcroute](https://onstartup.ru/set/smcroute/). 
+Since there is quite little information on this topic on the Internet, and [some articles](https://linkmeup.ru/blog/1204/) will not work (there is no video card on the server, only the console) for EVE-NG, then you will have to organize your article. The first problem I encountered was how to organize the source of the multicast, and at the same time the client. For solving this issue, I used [instruction](https://www.eve-ng.net/index.php/documentation/howtos/howto-save-your-settings-to-be-as-default-on-qemu-node/ ) to create your [image](https://disk.yandex.ru/d/_UKl3leYfNVqGA). To organize the server, I needed the [pstools](https://onstartup.ru/utility/tstools/) package, and for the client's organization [smcroute](https://onstartup.ru/set/smcroute/).
 
 
 
 ![](./img/Schema1.png)
 
-**Настройка NEXUS:**
+**Configuring NEXUS:**
 
  <details>
 <summary>NXOS1</summary>
@@ -541,7 +541,7 @@ wr
 </code></pre>
 </details>
 
-Настройка Source Multicast
+Configuring Source Multicast
 
 <details>
 <summary>Server</summary>
@@ -558,7 +558,7 @@ iface ens3  inet static
 tsplay ./video.ts 239.0.0.100:1234 -loop -i 10.10.10.2 &
 </code></pre>
 </details>
-Настройка клиентов:
+Configuring Clients:
 
 <details>
 <summary>Client13</summary>
@@ -591,7 +591,7 @@ iface ens3 inet static
 smcroute -j ens3 239.0.0.100
 </code></pre>
 </details>
-А устройства SW9, SW10, SW11 выполняют просто функцию коммутатора.
+And the SW9, SW10, SW11 devices simply perform the function of a switch.
 
 <details>
 <summary>SW9</summary>
@@ -705,7 +705,7 @@ end
 wr
 </code></pre>
 </details> 
-Теперь проверим RP:
+Now let's check the RP:
 
 <details> <summary>NXOS1</summary> <pre><code>
 NX1(config)# show ip pim rp
@@ -841,7 +841,7 @@ RP: 1.1.1.11, (0),
  224.0.0.0/4   , expires: 00:02:10 (B)
 </code></pre> </details>
 
-Теперь проверим IGMP:
+Now let's check IGMP:
 
  <details> <summary>NXOS7</summary> <pre><code>
 NX7# show ip igmp groups 
@@ -870,7 +870,7 @@ Group Address      Type Interface              Uptime    Expires   Last Reporter
 239.0.0.100        D   Ethernet1/2            01:54:09  00:03:28  10.10.11.2
 </code></pre> </details>
 
-А теперь PIM, начнём сначала с указанием соседств:
+And now PIM, let's start from the beginning with the indication of the neighbors:
 
  <details> <summary>NXOS2</summary> <pre><code>
 NX2# show ip pim neighbor 
@@ -919,7 +919,7 @@ Neighbor        Interface            Uptime    Expires   DR       Bidir-  BFD
  no
 </code></pre> </details>
 
-А теперь как распределяется мультикаст подписка за 239.0.0.100:
+And now how is the multicast subscription for 239.0.0.100 distributed:
 
 <details> 
 <summary>NXOS1</summary>
@@ -1079,10 +1079,10 @@ Outgoing interface flags: H - Hardware switched, A - Assert winner
     Loopback0, Forward/Sparse, 20:20:47/00:02:16
 </code></pre> </details>
 
-Исходя из данных мы можем нарисовать поток трафика:
+Based on the data, we can draw a traffic flow:
 
 ![](./img/Schema2.png)
 
-Вывод:
+Conclusion:
 
-Условная сеть ДЦ была постоена, а также организован мультикаст, который доставляет трафик от источника до клиента. 
+A conditional DC network was built, and a multicast was organized, which delivers traffic from the source to the client.

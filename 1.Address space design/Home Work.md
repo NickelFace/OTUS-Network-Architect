@@ -1,14 +1,21 @@
-Проектирование адресного пространства
+# Designing the address space
 
-Цель: Собрать схему CLOS;
-Распределить адресное пространство;
+**Goal: Build a CLOS circuit; Allocate address space;** 
 
-В этой самостоятельной работе мы ожидаем, что вы самостоятельно:
+**In this independent work, we expect you to:**
 
-1. Соберете топологию CLOS с 3 Spine и 4 Leaf. 3 Leaf подключены к 2 Spine. 1 Leaf подключен к оставшемуся Spine. Все Spine связаны между собой через дополнительный маршрутизатор(рекомендуется использовать IOL)
-2. Leaf необходимо связать между собой для дальнейшей настройки VPC пары
-3. Добавите 3 клиента будущей фабрики. Один клиент подключен к VPC паре. Остальные клиенты подключены к оставшимся Leaf(в качестве клиентов рекомендуется использовать IOL образы)
-4. Распределите адресное пространство для Underlay сети
-5. План работы, адресное пространство, схема сети, настройки - зафиксированы в документации
+In this independent work, we expect you to be on your own:
 
-![Schema](img/Schema.png)
+1. Assemble a CLOS topology with 3 Spine and 4 Leaf. 3 Leaf connected to 2 Spine. 1 Leaf is connected to the remaining Spine. All Spines are connected through an additional router (IOL is recommended)
+
+2. Leaf must be linked together to further configure the VPC pair
+
+3. Add 3 clients of the future factory. One client is connected to a VPC pair. The remaining clients are connected to the remaining Leaf (it is recommended to use IOL images as clients)
+
+4. Allocate address space for the Underlay network
+
+5. Work plan, address space, network diagram, settings - recorded in the documentation
+
+   
+
+   ![Schema](img/Schema.png)

@@ -1,20 +1,20 @@
 # VxLAN. Multipod
 
-Цель:
+Target:
 
-Настроить L2 связанность по технологии Multipod
+Set up L2 connectivity using Multipod technology
 
-В этой  самостоятельной работе мы ожидаем, что вы самостоятельно:
+In this independent work we expect you to:
 
-1. Настроите BGP peering между Spine в одной зоне и во второй
+1. Configure BGP peering between Spine in one zone and in the second
 
-2. Все клиенты имеют L2/L3 связанность
+2. All clients have L2/L3 connectivity
 
-   
+
 
 ![](img/Scheme.png)
 
-**Настройка NEXUS:**
+**NEXUS Setup:**
 
 <details>
   <summary>NXOS1</summary>
@@ -799,7 +799,7 @@ wr
 </code></pre>
 </details>
 
-**Настройка Switch:**
+**Switch Settings:**
 
 <details>
   <summary>SW9</summary>
@@ -910,8 +910,7 @@ end
 wr
 </code></pre>
 </details>
-
-**Настройка клиентов:**
+**Client setup:**
 
 <details>
   <summary>VPC1</summary>
@@ -955,7 +954,7 @@ ip 192.168.68.219/24 192.168.69.253
 ip 192.168.7019/24 192.168.70.252
 </code></pre>
 </details>
-Для начала проверим пиринг:
+First, let's check the peering:
 
 
 <details>
@@ -1076,7 +1075,7 @@ Neighbor        V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
 </code></pre>
 </details> 
 
-Проверим формирование таблиц маршрутизации:
+Let's check the formation of routing tables:
 
 <details>
   <summary>NXOS1</summary>
@@ -1532,7 +1531,7 @@ IP Route Table for VRF "VXLAN_RT"
 </code></pre>
 </details>
 
-Теперь проверим nve peers и таблицу для BGP EVPN:
+Now let's check nve peers and the table for BGP EVPN:
 
 <details>
   <summary>NXOS1</summary>
@@ -1830,7 +1829,7 @@ Route Distinguisher: 1.1.1.7:32835    (L2VNI 10068)
 </code></pre>
 </details>
 
-Проверка связности через утилиту ping
+Checking connectivity using the ping utility
 
 <details>
   <summary>VPC</summary>
@@ -1863,8 +1862,7 @@ VPCS> ping 192.168.69.219
 84 bytes from 192.168.69.219 icmp_seq=5 ttl=62 time=46.666 ms
 </code></pre>
 </details>
+Conclusion:
 
-Вывод:
-
-- Настроил BGP peering между Spine в одной зоне и во второй
-- Все клиенты имеют L2/L3 связанность
+- Configured BGP peering between Spine in one zone and in the second
+- All clients have L2/L3 connectivity

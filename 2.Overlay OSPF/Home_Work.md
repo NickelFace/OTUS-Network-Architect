@@ -1,22 +1,22 @@
 # Underlay. OSPF
 
-Цель: Настроить OSPF для Underlay сети
+Goal: Configure OSPF for the Underlay Network
 
-В этой самостоятельной работе мы ожидаем, что вы самостоятельно:
+In this independent work, we expect you to be on your own:
 
-1. настроить OSPF в Underlay сети, для IP связанности между всеми устройствами NXOS
-2. План работы, адресное пространство, схема сети, настройки - зафиксированы в документации
+1. Configure OSPF in the Underlay network, for IP connectivity between all NXOS devices
+2. The work plan, address space, network diagram, settings are fixed in the documentation
 
 ![Schema](img/Schema.png)
 
-Немного вводной информации:
+A little introductory information:
 
-У нас на схеме не 1 DC(Data Center) , а 2 DC. Поэтому появятся зоны 0 и 1 OSPF ,которые разделят "уcловно" нашу схему. 
-Добавим также на устройства Loopback интерфейсы , чтобы  в дальнейшем через Loopback'и было удобно строить Overlay сеть. Вначале указываю настройки конфигурации устройств ,а позже вывод ,чтобы показать связанность между ними.
+We have not 1 DC (Data Center) on the diagram, but 2 DC. Therefore, OSPF zones 0 and 1 will appear, which "conditionally" share our scheme. 
+We will also add Loopback interfaces to the devices so that in the future it will be convenient to build an Overlay network through Loopback. First, I specify the device configuration settings, and later the output to show the connectivity between them.
 
 ![](img/Schema2.png)
 
-Настройка NEXUS:
+Configuring NEXUS:
  <details>
 <summary>NXOS1</summary>
 <pre><code>
@@ -420,7 +420,7 @@ wr
 </details>
  
 
-Далее пойдут настройки клиентских устройств:
+Next, the settings of client devices will go:
 
 <details>
 <summary>SW11</summary>
@@ -510,7 +510,7 @@ wr
 </code></pre>
 </details> 
 
-Вывод  нескольких устройств после настройки:
+Output of multiple devices after configuration:
 
 ```
  R11#show ip route ospf    
@@ -553,7 +553,7 @@ Neighbor ID     Pri   State           Dead Time   Address         Interface
 ```
 
 
-Далее укажу вывод соседства по OSPF:
+Next, I will indicate the output of the neighborhood by OSPF:
 
 NXOS4
 
@@ -593,7 +593,7 @@ NX2# show ip ospf neighbors
  1.1.1.11          1 FULL/ -          02:19:07 10.15.0.7       Eth1/4
 ```
 
-Проверим связь между ДЦ:
+Let's check the connection between the DC:
 
 SW9
 
@@ -654,6 +654,6 @@ Sending 100, 100-byte ICMP Echos to 172.16.0.1, timeout is 2 seconds:
 Success rate is 100 percent (100/100), round-trip min/avg/max = 9/10/14 ms
 ```
 
-Вывод:
+Conclusion:
 
-Условная сеть для двух ДЦ была построена , протокол OSPF работает , связь между конечными точками сети присутствует.   
+A conditional network for two DC has been built, the OSPF protocol is working , communication between the endpoints of the network is present.

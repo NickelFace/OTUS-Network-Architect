@@ -1,21 +1,21 @@
 VxLAN. type 2
 
-Цель: Настроить Overlay на основе VxLAN EVPN для L2 связанности между клиентами
+Goal: Configure Overlay based on VxLAN EVPN for L2 connectivity between clients
 
-В этой самостоятельной работе мы ожидаем, что вы самостоятельно:
+In this independent work, we expect you to be on your own:
 
 
 
-1. Настроить BGP peering между Leaf и Spine в AF l2vpn evpn
-2. Spine работает в качестве route-reflector
-3. Настроена связанность между клиентами в первой зоне
-4. План работы, адресное пространство, схема сети, настройки - зафиксированы в документации
+1. Set up BGP peering between Leaf and Spine in AF l2vpn evpn
+2. Spine works as a route-reflector
+3. Connectivity is set up between clients in the first zone
+4. The work plan, address space, network diagram, settings are fixed in the documentation
 
 
 
 ![Scheme](img/Scheme.png)
 
-**Настройка NEXUS:**
+**Configuring NEXUS:**
 
  <details>
 <summary>NXOS2</summary>
@@ -447,7 +447,7 @@ copy run star
 </code></pre>
 </details>
 
-Проверим пиринг со всеми:
+Let's check the peering with everyone:
 
 <details>
 <summary>NXOS2</summary>
@@ -532,7 +532,7 @@ Neighbor        V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
 </code></pre>
 </details>
 
-Проверим что есть IP связанность между всеми устройствами:
+Let's check that there is IP connectivity between all devices:
 
 
 <details>
@@ -716,7 +716,7 @@ IP Route Table for VRF "default"
 </code></pre>
 </details>
 
-Теперь проверим nve peers и таблицу для BGP EVPN:
+Now let's check nve peers and the table for BGP EVPN:
 
 <details>
 <summary>NXOS5</summary>
@@ -741,13 +741,13 @@ Route Distinguisher: 1.1.1.5:32777    (L2VNI 10010)
                       1.1.1.5                           100      32768 i
 *>i[3]:[0]:[32]:[1.1.1.6]/88
                       1.1.1.6                           100          0 i
-
+!
 Route Distinguisher: 1.1.1.6:32777
 * i[3]:[0]:[32]:[1.1.1.6]/88
                       1.1.1.6                           100          0 i
-                  *>i                   1.1.1.6                           100          0 i
-                  </code></pre>
-                  </details>
+*>i                   1.1.1.6                           100          0 i
+</code></pre>
+</details>
 <details>
 <summary>NXOS6</summary>
 <pre><code>
@@ -771,13 +771,13 @@ Route Distinguisher: 1.1.1.5:32777
 * i[3]:[0]:[32]:[1.1.1.5]/88
                       1.1.1.5                           100          0 i
 *>i                   1.1.1.5                           100          0 i
-
+!
 Route Distinguisher: 1.1.1.6:32777    (L2VNI 10010)
 *>i[3]:[0]:[32]:[1.1.1.5]/88
                       1.1.1.5                           100          0 i
 *>l[3]:[0]:[32]:[1.1.1.6]/88
                       1.1.1.6                           100      32768 i
-
+!
 Route Distinguisher: 1.1.1.6:32778    (L2VNI 10011)
 *>i[2]:[0]:[0]:[48]:[0050.7966.680e]:[0]:[0.0.0.0]/216
                       1.1.1.7                           100          0 i
@@ -787,7 +787,7 @@ Route Distinguisher: 1.1.1.6:32778    (L2VNI 10011)
                       1.1.1.6                           100      32768 i
 *>i[3]:[0]:[32]:[1.1.1.7]/88
                       1.1.1.7                           100          0 i
-
+!
 Route Distinguisher: 1.1.1.7:32778
 *>i[2]:[0]:[0]:[48]:[0050.7966.680e]:[0]:[0.0.0.0]/216
                       1.1.1.7                           100          0 i
@@ -834,8 +834,9 @@ Route Distinguisher: 1.1.1.7:32778    (L2VNI 10011)
 </code></pre>
 </details>
 
-Вывод:
 
-1. Настроен BGP peering между Leaf и Spine в AF l2vpn evpn
-2. Spine работает в качестве route-reflector
-3. План работы, адресное пространство, схема сети, настройки - зафиксированы в документации
+Conclusion:
+
+1. Configured BGP peering between Leaf and Spine in AF l2vpn evpn
+2. Spine works as a route-reflector
+3. The work plan, address space, network diagram, settings are fixed in the documentation
