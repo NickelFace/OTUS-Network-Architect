@@ -1,4 +1,4 @@
-# VxLAN. Миграция Control Plane c Multicast на EVPN
+# VxLAN. Migration of Control Plane from Multicast to EVPN
 
 Target:
 
