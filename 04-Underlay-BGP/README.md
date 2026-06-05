@@ -1,21 +1,17 @@
-## Домашнее задание
+# Underlay. BGP
 
-Underlay.BGP
+**Objective:** Configure BGP for the Underlay network.
 
-Цель: Настроить BGP для Underlay сети
+**Lab tasks:**
 
-В этой самостоятельной работе мы ожидаем, что вы самостоятельно:
-
-1. настроить BGP в Underlay сети, для IP связанности между всеми устройствами NXOS
-2. План работы, адресное пространство, схема сети, настройки - зафиксированы в документации
+1. Configure BGP in the Underlay network to achieve IP reachability between all NX-OS devices.
+2. Document the work plan, address space, network diagram, and device configurations.
 
 ![Sheme](./img/Schema.png)
 
-Немного вводной информации:
+**Background:** All route advertisements are controlled via route-map attached to peer templates, which makes policy changes easier. BGP peering is established using physical interface addresses. Loopback and connected networks are advertised.
 
- Все маршруты завожу по средствам route-map и прикреплению его к шаблону устройства ,так как это более удобный способ менять политики .  Для установления соседства по BGP используется адреса ,указанные на физических интерфейсах. Маршруты для анонса используются loopback и connected сети . 
-
-Настройка NEXUS:
+**NEXUS configuration:**
 
 <details>
   <summary>NXOS1</summary>
@@ -615,7 +611,7 @@ copy run star
 </details>
 
 
-Далее пойдут настройки клиентских устройств:
+**Client device configurations:**
 
 <details>
   <summary>SW11</summary>
@@ -705,7 +701,7 @@ wr
 </details>
 
 
-Вывод нескольких устройств:
+**Verification output:**
 
 ```
 R11#show ip route bgp 
@@ -781,7 +777,7 @@ Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State
 10.16.0.0       4        64554       8      14       27    0    0 00:02:51        5
 ```
 
-Далее укажу вывод соседства по BGP:
+**BGP session verification:**
 
 NXOS4
 
@@ -832,7 +828,7 @@ Neighbor        ASN    Flaps LastUpDn|LastRead|LastWrit St Port(L/R)  Notif(S/R)
 10.15.0.7       64777 1     00:05:32|00:00:01|00:00:31 E   45531/179        0/0
 ```
 
-Проверим связь между ДЦ:
+**End-to-end connectivity check between DCs:**
 
 SW9  -> SW11
 
@@ -883,6 +879,4 @@ VRF info: (vrf in name/id, vrf out name/id)
   6 172.16.2.1 10 msec *  14 msec
 ```
 
-Вывод:
-
-Условная сеть для двух ДЦ была построена , протокол BGP работает , связь между конечными точками сети присутствует.
+**Result:** The two-DC network fabric was built successfully. BGP is operational and end-to-end connectivity between all endpoints is confirmed.

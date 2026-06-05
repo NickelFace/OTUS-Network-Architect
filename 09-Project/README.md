@@ -1,35 +1,20 @@
-# VxLAN. Миграция Control Plane c Multicast на EVPN
+# VxLAN. Control Plane Migration: Multicast → EVPN
 
-Цель:
+**Objective:** Plan and execute the migration from Multicast CP to EVPN.
 
-Составить план перехода от CP Multicast к EVPN
+**Work plan:**
 
-План работы:
-
-1. Настроить схему сети для VxLAN CP Multicast.
-2. Предоставить план перехода на EVPN.
-3. Настроить схему сети для VxLAN Multipod.
+1. Configure the VxLAN Multicast CP network.
+2. Provide the EVPN migration plan.
+3. Configure the VxLAN Multipod network.
 
 ![Scheme](./img/Scheme.png)
 
-## Настроить схему сети для VxLAN CP Multicast.
+## Part 1: VxLAN Multicast CP Network
 
-Описание:
+**Description:** VxLAN control plane via Multicast Sparse Mode. Key challenges: RP selection, multicast IP addressing (to avoid duplicate MACs), and VTEP discovery. Only L2 was achievable — L3 TRM returned `TRM not supported on this platform`. BFD commands exist in the image but the protocol is not functional.
 
-На данный момент буду приводить конфигурацию VxLAN через мультикаст, то есть передача информации в сети об определенном VNI будет распространяться через многоадресную рассылку в режиме **sparse mode**. В данном примере мне потребуется решить следующие задачи: кто будет участвовать в качестве RP(и как получить эту информацию), многоадресная IP адресация(чтобы по сети не гуляли одинаковые mac-адреса) и так далее. 
-
-Что не получилось:
-
-Для данной схемы получилось настроить только L2 связь, так как при настройке L3 получил сообщение:
-
-```
-TRM not supported on this platform
-```
-
-
-А также в образах отсутствует поддержка bfd(команды есть, но самих пакетов нет) 
-
-**Приступим к настройке :**
+**Proceeding to configuration:**
 
 <details>
   <summary>NXOS1</summary>
@@ -787,7 +772,7 @@ wr
 </code></pre>
 </details>
 
-**Настройка Switch:**
+**Switch configuration:**
 
 <details>
   <summary>SW9</summary>
@@ -863,7 +848,7 @@ end
 wr
 </code></pre>
 </details>
-А теперь покажу 2 простроенных туннеля nve и вывод устройств:
+**Two established NVE tunnels and device output:**
 <details>
 <summary>NX1</summary>
 <pre><code>
@@ -894,28 +879,27 @@ nve1      10.1.1.5         Up    DP        03:32:54 n/a
 </code></pre>
 </details>
 
-Чтобы не загромождать проект лишними выводами, вставлю далее картинку с указанием построенного пути:
+Traffic path diagram (to keep the output concise):
 
 ![Scheme2](./img/Scheme2.png)
 
-Multicast на данный момент считается уже устаревшим решением, поэтому главной задачей данного проекта перевести сеть на EVPN
 
-## Предоставить план перехода на EVPN.
+Multicast CP is considered a legacy solution. The primary goal of this project phase is migrating the control plane to EVPN.
 
-- Номера автономных систем останется прежним.
-- Номера vni тоже.
-- Поднимается соседство по ospf
-- На этом этапе будут подниматься тестовые неиспользуемые резервные **vlan** и **vni**
-  Например: vlan 1200 - 1205 vni 10020 - 10025
-  Готовим нужные template для соседей BGP
-- Будут убираться все соединения ipv4 unicast и заменяться на l2 evpn.
-- В интерфейсах nve1 будет явно указываться распространение меток vni через BGP.
-- Для построения пиринга, будем явноуказывать указывать route-target в evpn.
-- Для более плавного перехода, потребуется заранее подготовить конфигурацию.
-- Проводим тестовое испытание , в течении часа ожидаем.
-- На всех устройствах будет отключаться фича отвечающая за pim.
+## Migration Plan: Multicast CP → EVPN
 
-## Настройка схемы сети для VxLAN Multipod.
+- AS numbers remain unchanged.
+- VNI numbers remain unchanged.
+- Bring up OSPF adjacencies.
+- At this stage, bring up test/reserve VLANs and VNIs (e.g. vlan 1200–1205, vni 10020–10025) and prepare BGP peer templates.
+- Remove all `ipv4 unicast` BGP sessions and replace with `l2vpn evpn`.
+- Explicitly configure VNI label distribution via BGP in `nve1` interfaces.
+- Specify `route-target` values explicitly in the EVPN address family for peering.
+- Pre-stage the full configuration before cutover for a smoother migration.
+- Run a test period of ~1 hour before declaring success.
+- Disable the PIM feature on all devices once EVPN is confirmed operational.
+
+## VxLAN Multipod Network Configuration
 
 ![Scheme](./img/Scheme3.png)
 
@@ -1625,7 +1609,7 @@ wr
 </code></pre>
 </details>
 
-**Настройка Switch:**
+**Switch configuration:**
 
 <details>
   <summary>SW9</summary>

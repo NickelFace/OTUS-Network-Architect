@@ -1,28 +1,24 @@
 # Multicast. PIM
 
-Цель:
+**Objective:** Configure PIM in the network.
 
-Настроить PIM в сети.
+**Lab tasks:**
 
-В этой работе мы ожидаем, что вы самостоятельно:
+1. Configure PIM on all devices except access switches.
+   *Any dynamic routing protocol may be used for IP reachability between devices.*
+2. Document the work plan, address space, network diagram, and device configurations.
 
-1. Настроите PIM на всех устройствах (кроме коммутаторов доступа);
-
-  *Для IP связанности между устройствами можно использовать любой протокол динамической маршрутизации; 2. План работы, адресное пространство, схема сети, настройки - зафиксируете в документации;
-
-Дополнительно предлагается реализовать Multicast совместно с VxLAN(к этой части самостоятельной работы возможно вернуться позже)
+*Optional: implement Multicast together with VxLAN (can be completed later).*
 
 
 
-За основу взял схему из раздела [OSPF](https://github.com/NickelFace/OTUS-Network-Architect/blob/main/2.Overlay_OSPF/Home_Work.md), где указал логику построения сети ЦОД, а  теперь требуется организовать  мультикаст в данной топологии.
-
-Так как в интернете довольно мало информации на данную тематику,а [некоторые статьи](https://linkmeup.ru/blog/1204/)  не подойдут(на сервере нет видеокарты, только консоль) для EVE-NG, то придется организовать свою статью. Первая проблема с которой столкнулся, это как организовать источник мультикаста, а заодно и клиента. За решение данного вопроса я воспользовался [инструкцией](https://www.eve-ng.net/index.php/documentation/howtos/howto-save-your-settings-to-be-as-default-on-qemu-node/) по созданию своего [образа](https://disk.yandex.ru/d/_UKl3leYfNVqGA). Для организации сервера мне потребовался пакет [tstools](https://onstartup.ru/utility/tstools/), а для организации клиента [smcroute](https://onstartup.ru/set/smcroute/). 
+The topology is based on the OSPF lab. The challenge was finding suitable multicast source and receiver tools for EVE-NG (headless, no GPU). A custom QEMU image was built using the EVE-NG guide. The multicast source uses [tstools](https://onstartup.ru/utility/tstools/); receivers subscribe using [smcroute](https://onstartup.ru/set/smcroute/).
 
 
 
 ![](./img/Schema1.png)
 
-**Настройка NEXUS:**
+**NEXUS configuration:**
 
  <details>
 <summary>NXOS1</summary>
@@ -541,7 +537,7 @@ wr
 </code></pre>
 </details>
 
-Настройка Source Multicast
+**Multicast source configuration**
 
 <details>
 <summary>Server</summary>
@@ -553,12 +549,12 @@ iface ens3  inet static
         netmask 255.255.255.0
         gateway 10.10.10.1
 </code></pre>
-Запуск источника выполняется командой:
+Start the source with:
 <pre><code> 
 tsplay ./video.ts 239.0.0.100:1234 -loop -i 10.10.10.2 &
 </code></pre>
 </details>
-Настройка клиентов:
+**Client configurations:**
 
 <details>
 <summary>Client13</summary>
@@ -570,7 +566,7 @@ iface ens3 inet static
         netmask 255.255.255.0
         gateway 10.10.12.254
 </code></pre>
-Запуск подписки на мультикаст рассылку выполняется командой:
+Subscribe to the multicast stream with:
 <pre><code> 
 smcroute -j ens3 239.0.0.100
 </code></pre>
@@ -586,12 +582,12 @@ iface ens3 inet static
         netmask 255.255.255.0
         gateway 10.10.11.254
 </code></pre>
-Запуск подписки на мультикаст рассылку выполняется командой:
+Subscribe to the multicast stream with:
 <pre><code> 
 smcroute -j ens3 239.0.0.100
 </code></pre>
 </details>
-А устройства SW9, SW10, SW11 выполняют просто функцию коммутатора.
+SW9, SW10, and SW11 act as pure Layer-2 switches.
 
 <details>
 <summary>SW9</summary>
@@ -705,7 +701,7 @@ end
 wr
 </code></pre>
 </details> 
-Теперь проверим RP:
+**Verify RP:**
 
 <details> <summary>NXOS1</summary> <pre><code>
 NX1(config)# show ip pim rp
@@ -841,7 +837,7 @@ RP: 1.1.1.11, (0),
  224.0.0.0/4   , expires: 00:02:10 (B)
 </code></pre> </details>
 
-Теперь проверим IGMP:
+**Verify IGMP:**
 
  <details> <summary>NXOS7</summary> <pre><code>
 NX7# show ip igmp groups 
@@ -870,7 +866,7 @@ Group Address      Type Interface              Uptime    Expires   Last Reporter
 239.0.0.100        D   Ethernet1/2            01:54:09  00:03:28  10.10.11.2
 </code></pre> </details>
 
-А теперь PIM, начнём сначала с указанием соседств:
+**PIM neighbor verification:**
 
  <details> <summary>NXOS2</summary> <pre><code>
 NX2# show ip pim neighbor 
@@ -919,7 +915,7 @@ Neighbor        Interface            Uptime    Expires   DR       Bidir-  BFD
  no
 </code></pre> </details>
 
-А теперь как распределяется мультикаст подписка за 239.0.0.100:
+**Multicast routing table for group 239.0.0.100:**
 
 <details> 
 <summary>NXOS1</summary>
@@ -1079,10 +1075,8 @@ Outgoing interface flags: H - Hardware switched, A - Assert winner
     Loopback0, Forward/Sparse, 20:20:47/00:02:16
 </code></pre> </details>
 
-Исходя из данных мы можем нарисовать поток трафика:
+Based on the routing tables, the multicast traffic flow is:
 
 ![](./img/Schema2.png)
 
-Вывод:
-
-Условная сеть ДЦ была постоена, а также организован мультикаст, который доставляет трафик от источника до клиента. 
+**Result:** The DC network fabric was built and Multicast PIM (Sparse Mode) was configured successfully. Traffic is delivered from the source to all subscribed receivers. 

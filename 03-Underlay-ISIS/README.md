@@ -1,21 +1,17 @@
-## Домашнее задание
+# Underlay. IS-IS
 
-Underlay. IS-IS
+**Objective:** Configure IS-IS for the Underlay network.
 
-Цель: Настроить IS-IS для Underlay сети
+**Lab tasks:**
 
-В этой самостоятельной работе мы ожидаем, что вы самостоятельно:
-
-1. настроить IS-IS в Underlay сети, для IP связанности между всеми устройствами NXOS
-2. План работы, адресное пространство, схема сети, настройки - зафиксированы в документации
+1. Configure IS-IS in the Underlay network to achieve IP reachability between all NX-OS devices.
+2. Document the work plan, address space, network diagram, and device configurations.
 
 ![](./img/Schema.png)
 
-Немного вводной информации:
+**Background:** NXOS2 and NXOS3 are placed in IS-IS area 0 (0000); the Leaf switches below them are in the same area. R11 is the inter-area router in area 0, redistributing routes toward NXOS4 which is in area 1 (0001). Routes follow the topology shown in the diagram; Loopback prefixes are redistributed L1/L2 to avoid manually tracking Connected networks.
 
-Коммутаторы NXOS2 и NXOS3 будут находиться в ISIS area 0 (0000) , следовательно LEAF ниже аналогично в той же зоне . R11 - это связующий маршрутизатор ,который будет находиться в зоне area 0 и передавать маршруты в сторону NXOS4 где зона area 1 (0001).  В основном маршруты будут передаваться так как указано на схеме , исключением будут Loopback интерфейсы ,которые будут передаваться L1/L2 ,чтобы не запоминать Connected сети.
-
-Настройка NEXUS:
+**NEXUS configuration:**
 
 <details>
 <summary>NXOS1</summary>
@@ -446,7 +442,7 @@ copy run star
 </code></pre>
 </details>
 
-Далее пойдут настройки клиентских устройств:
+**Client device configurations:**
 
 <details>
 <summary>SW11</summary>
@@ -537,7 +533,7 @@ wr
 </code></pre>
 </details>
 
-Вывод нескольких устройств:
+**Verification output:**
 
 ```
 R11#show ip route isis 
@@ -584,7 +580,7 @@ NX3            L2   Et0/1       10.15.1.6       UP    23       01
 NX4            L2   Et0/2       10.16.0.0       UP    29       01
 ```
 
-Далее укажу вывод соседства по IS-IS:
+**IS-IS adjacency verification:**
 
 NXOS4
 
@@ -626,7 +622,7 @@ NX5             N/A             1      UP     00:00:25   Ethernet1/3
 R11             N/A             2      UP     00:00:26   Ethernet1/4
 ```
 
-Проверим связь между ДЦ:
+**End-to-end connectivity check between DCs:**
 
 SW9
 
@@ -657,6 +653,4 @@ Sending 100, 100-byte ICMP Echos to 172.16.0.1, timeout is 2 seconds:
 Success rate is 100 percent (100/100), round-trip min/avg/max = 27/71/433 ms
 ```
 
-Вывод:
-
-Условная сеть для двух ДЦ была построена , протокол IS-IS работает , связь между конечными точками сети присутствует.
+**Result:** The two-DC network fabric was built successfully. IS-IS is operational and end-to-end connectivity between all endpoints is confirmed.

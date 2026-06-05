@@ -1,22 +1,19 @@
 # Underlay. OSPF
 
-Цель: Настроить OSPF для Underlay сети
+**Objective:** Configure OSPF for the Underlay network.
 
-В этой самостоятельной работе мы ожидаем, что вы самостоятельно:
+**Lab tasks:**
 
-1. настроить OSPF в Underlay сети, для IP связанности между всеми устройствами NXOS
-2. План работы, адресное пространство, схема сети, настройки - зафиксированы в документации
+1. Configure OSPF in the Underlay network to achieve IP reachability between all NX-OS devices.
+2. Document the work plan, address space, network diagram, and device configurations.
 
 ![Schema](img/Schema.png)
 
-Немного вводной информации:
-
-У нас на схеме не 1 DC(Data Center) , а 2 DC. Поэтому появятся зоны 0 и 1 OSPF ,которые разделят "уcловно" нашу схему. 
-Добавим также на устройства Loopback интерфейсы , чтобы  в дальнейшем через Loopback'и было удобно строить Overlay сеть. Вначале указываю настройки конфигурации устройств ,а позже вывод ,чтобы показать связанность между ними.
+**Background:** The topology spans 2 Data Centres. OSPF areas 0 and 1 logically separate the two DCs. Loopback interfaces are added on every device so the Overlay network can later be built over Loopback-to-Loopback tunnels. Device configurations are shown first, followed by verification output.
 
 ![](img/Schema2.png)
 
-Настройка NEXUS:
+**NEXUS configuration:**
  <details>
 <summary>NXOS1</summary>
 <pre><code>
@@ -420,7 +417,7 @@ wr
 </details>
  
 
-Далее пойдут настройки клиентских устройств:
+**Client device configurations:**
 
 <details>
 <summary>SW11</summary>
@@ -510,7 +507,7 @@ wr
 </code></pre>
 </details> 
 
-Вывод  нескольких устройств после настройки:
+**Verification output after configuration:**
 
 ```
  R11#show ip route ospf    
@@ -553,7 +550,7 @@ Neighbor ID     Pri   State           Dead Time   Address         Interface
 ```
 
 
-Далее укажу вывод соседства по OSPF:
+**OSPF neighbor adjacency verification:**
 
 NXOS4
 
@@ -593,7 +590,7 @@ NX2# show ip ospf neighbors
  1.1.1.11          1 FULL/ -          02:19:07 10.15.0.7       Eth1/4
 ```
 
-Проверим связь между ДЦ:
+**End-to-end connectivity check between DCs:**
 
 SW9
 
@@ -654,6 +651,4 @@ Sending 100, 100-byte ICMP Echos to 172.16.0.1, timeout is 2 seconds:
 Success rate is 100 percent (100/100), round-trip min/avg/max = 9/10/14 ms
 ```
 
-Вывод:
-
-Условная сеть для двух ДЦ была построена , протокол OSPF работает , связь между конечными точками сети присутствует.   
+**Result:** The two-DC network fabric was built successfully. OSPF is operational and end-to-end connectivity between all endpoints is confirmed.   

@@ -1,20 +1,17 @@
 # VxLAN. Multipod
 
-Цель:
+**Objective:** Configure L2/L3 connectivity using the Multipod design.
 
-Настроить L2 связанность по технологии Multipod
+**Lab tasks:**
 
-В этой  самостоятельной работе мы ожидаем, что вы самостоятельно:
-
-1. Настроите BGP peering между Spine в одной зоне и во второй
-
-2. Все клиенты имеют L2/L3 связанность
+1. Configure BGP EVPN peering between Spine switches across both pods.
+2. All clients achieve full L2 and L3 connectivity.
 
    
 
 ![](img/Scheme.png)
 
-**Настройка NEXUS:**
+**NEXUS configuration:**
 
 <details>
   <summary>NXOS1</summary>
@@ -799,7 +796,7 @@ wr
 </code></pre>
 </details>
 
-**Настройка Switch:**
+**Switch configuration:**
 
 <details>
   <summary>SW9</summary>
@@ -911,7 +908,7 @@ wr
 </code></pre>
 </details>
 
-**Настройка клиентов:**
+**Client configurations:**
 
 <details>
   <summary>VPC1</summary>
@@ -955,7 +952,7 @@ ip 192.168.68.219/24 192.168.69.253
 ip 192.168.7019/24 192.168.70.252
 </code></pre>
 </details>
-Для начала проверим пиринг:
+**BGP EVPN peering verification:**
 
 
 <details>
@@ -1076,7 +1073,7 @@ Neighbor        V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
 </code></pre>
 </details> 
 
-Проверим формирование таблиц маршрутизации:
+**Routing table verification:**
 
 <details>
   <summary>NXOS1</summary>
@@ -1532,7 +1529,7 @@ IP Route Table for VRF "VXLAN_RT"
 </code></pre>
 </details>
 
-Теперь проверим nve peers и таблицу для BGP EVPN:
+**NVE peers and BGP EVPN table verification:**
 
 <details>
   <summary>NXOS1</summary>
@@ -1830,7 +1827,7 @@ Route Distinguisher: 1.1.1.7:32835    (L2VNI 10068)
 </code></pre>
 </details>
 
-Проверка связности через утилиту ping
+**Connectivity verification (ping):**
 
 <details>
   <summary>VPC</summary>
@@ -1864,7 +1861,7 @@ VPCS> ping 192.168.69.219
 </code></pre>
 </details>
 
-Вывод:
+**Result:**
 
-- Настроил BGP peering между Spine в одной зоне и во второй
-- Все клиенты имеют L2/L3 связанность
+- BGP EVPN peering established between Spine switches in both pods.
+- All clients have full L2 and L3 connectivity.

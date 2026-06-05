@@ -1,20 +1,17 @@
-# VxLAN. Route
+# VxLAN. L3 Routing + vPC
 
-Цель:
+**Objective:** Configure VxLAN Overlay with vPC and inter-VNI routing.
 
-Настроить Overlay на основе с использованием VPC; Маршрутизация в Overlay.
+**Lab tasks:**
 
-В этой  самостоятельной работе мы ожидаем, что вы самостоятельно:
-
-1. Настроите каждого клиента в своем VNI
-
-2. Настроите маршрутизацию между клиентами
+1. Place each client in its own VNI.
+2. Configure L3 routing between VNIs.
 
    
 
 ![Scheme](img/Scheme.png)
 
-**Настройка NEXUS:**
+**NEXUS configuration:**
 
  <details>
 <summary>NXOS2</summary>
@@ -594,7 +591,7 @@ wr
 </code></pre>
 </details>
 
-**Настройка Switch:**
+**Switch configuration:**
 
 <details>
   <summary>SW9</summary>
@@ -688,7 +685,7 @@ wr
 </code></pre>
 </details>
 
-**Настройка клиентов:**
+**Client configurations:**
 
 <details>
   <summary>VPC1</summary>
@@ -727,7 +724,7 @@ ip 192.168.68.219/24 192.168.69.253
 </code></pre>
 </details>
 
-Обращаем внимание на настройку **VPC** между **NXOS5 - NXOS7**:
+**vPC configuration between NXOS5 and NXOS7:**
 
 <details>
 <summary>NXOS5</summary>
@@ -898,7 +895,7 @@ Local suspended VLANs       -     -                      -
 </code></pre>
 </details>
 
-Также был настроен MLAG на основе LACP:
+**MLAG (LACP-based) configuration:**
 
 
 <details>
@@ -942,9 +939,9 @@ Et0/0     SA      32768     0023.04ee.be01  24s    0x0    0x8001 0x4106  0x3D
 Et0/1     SA      32768     0023.04ee.be01  23s    0x0    0x8001 0x106   0x3D  
 </code></pre>
 </details
-Между **NX6** - (**NX5**-**NX7**) организована как L2 связь через метки **10010**,**10011** так и маршрутизация между VNI по меткам **10068**,**10069** через метку **9999**.
+Between **NX6** and the **NX5–NX7** vPC pair: L2 connectivity via VNI labels **10010** and **10011**, plus inter-VNI routing via **10068** and **10069** through L3VNI **9999**.
 
-Для начала проверим пиринг:
+**BGP EVPN peering verification:**
 
 
 <details>
@@ -1030,7 +1027,7 @@ Neighbor        V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
 NX7(config)#      
 </code></pre>
 </details> 
-Проверим формирование таблиц маршрутизации:
+**Routing table verification:**
 
 
 <details>
@@ -1297,7 +1294,7 @@ IP Route Table for VRF "VXLAN_RT"
 n) segid: 9999 tunnelid: 0x1010106 encap: VXLAN
 </code></pre>
 </details>
-Теперь проверим nve peers и таблицу для BGP EVPN:
+**NVE peers and BGP EVPN table verification:**
 
 
 <details>
@@ -1646,7 +1643,7 @@ Route Distinguisher: 1.1.1.7:32835    (L2VNI 10068)
                       10.255.255.255                    100      32768 i
 </code></pre>
 </details>
-Проверка связности через утилиту ping
+**Connectivity verification (ping):**
 
 
 <details>
@@ -1695,8 +1692,8 @@ VPCS> ping 192.168.69.219
 84 bytes from 192.168.69.219 icmp_seq=5 ttl=62 time=25.785 ms
 </code></pre>
 </details>
-Вывод:
+**Result:**
 
-- Настроил L2 связность между клиентами (VPC1 - VPC2; VPC3 - VPC14)
-- Настроил маршрутизацию между VNI (10068 - 10069 через метку 9999)
-- Настроил пару VPC, а также MLAG на основе протокола LACP.
+- L2 connectivity established between clients (VPC1–VPC2; VPC3–VPC14).
+- L3 routing configured between VNIs (10068 ↔ 10069 via L3VNI 9999).
+- vPC pair and MLAG (LACP) configured between NXOS5 and NXOS7.

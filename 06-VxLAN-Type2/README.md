@@ -1,21 +1,19 @@
-VxLAN. type 2
+# VxLAN. Type 2 (L2 Overlay)
 
-Цель: Настроить Overlay на основе VxLAN EVPN для L2 связанности между клиентами
+**Objective:** Configure a VxLAN EVPN Overlay for L2 connectivity between clients.
 
-В этой самостоятельной работе мы ожидаем, что вы самостоятельно:
+**Lab tasks:**
 
-
-
-1. Настроить BGP peering между Leaf и Spine в AF l2vpn evpn
-2. Spine работает в качестве route-reflector
-3. Настроена связанность между клиентами в первой зоне
-4. План работы, адресное пространство, схема сети, настройки - зафиксированы в документации
+1. Configure BGP peering between Leaf and Spine in the `l2vpn evpn` address family.
+2. Spine switches act as route-reflectors.
+3. Establish L2 connectivity between clients within the first zone.
+4. Document the work plan, address space, network diagram, and device configurations.
 
 
 
 ![Scheme](img/Scheme.png)
 
-**Настройка NEXUS:**
+**NEXUS configuration:**
 
  <details>
 <summary>NXOS2</summary>
@@ -447,7 +445,7 @@ copy run star
 </code></pre>
 </details>
 
-Проверим пиринг со всеми:
+**BGP EVPN peering verification:**
 
 <details>
 <summary>NXOS2</summary>
@@ -532,7 +530,7 @@ Neighbor        V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
 </code></pre>
 </details>
 
-Проверим что есть IP связанность между всеми устройствами:
+**IP reachability verification between all devices:**
 
 
 <details>
@@ -716,7 +714,7 @@ IP Route Table for VRF "default"
 </code></pre>
 </details>
 
-Теперь проверим nve peers и таблицу для BGP EVPN:
+**NVE peers and BGP EVPN table verification:**
 
 <details>
 <summary>NXOS5</summary>
@@ -834,8 +832,8 @@ Route Distinguisher: 1.1.1.7:32778    (L2VNI 10011)
 </code></pre>
 </details>
 
-Вывод:
+**Result:**
 
-1. Настроен BGP peering между Leaf и Spine в AF l2vpn evpn
-2. Spine работает в качестве route-reflector
-3. План работы, адресное пространство, схема сети, настройки - зафиксированы в документации
+1. BGP peering between Leaf and Spine in the `l2vpn evpn` AF is established.
+2. Spine switches act as route-reflectors.
+3. Work plan, address space, topology diagram, and configurations are documented.
